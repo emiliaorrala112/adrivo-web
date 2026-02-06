@@ -154,55 +154,61 @@
         .site-footer { background: white; border-top: 2px solid #fff0f6; padding: 30px; text-align: center; color: #999; font-size: 0.9rem; margin-top: auto; font-weight: 600; }
 
         /* --- CÓDIGO (RESPONSIVE) --- */
-    /* --- ARREGLO RESPONSIVE PARA CELULARES --- */
+    /* --- ARREGLO FINAL RESPONSIVE (CELULARES) --- */
 @media (max-width: 768px) {
-    /* 1. Header principal en columna */
+    /* 1. Forzamos a que el encabezado sea una columna vertical */
     .header-top {
         flex-direction: column !important;
-        padding: 10px !important;
-        gap: 15px !important;
+        align-items: center !important;
+        padding: 15px 10px !important;
+        gap: 12px !important;
+        position: relative !important;
     }
 
-    /* 2. Logo más pequeño y centrado */
+    /* 2. El Logo se queda arriba y centrado */
     .brand-badge {
-        position: relative !important; /* Quitamos el fixed que causaba el choque */
         width: 100% !important;
         justify-content: center !important;
+        margin-bottom: 5px !important;
     }
     .brand-badge img { height: 45px !important; width: 45px !important; }
-    .brand-badge span { font-size: 1.4rem !important; }
 
-    /* 3. Buscador al 100% de ancho */
+    /* 3. El Buscador ocupa todo el ancho sin chocar */
     .search-form {
         width: 100% !important;
         max-width: 100% !important;
-        order: 2; /* Lo bajamos después del logo */
+        margin: 0 !important;
     }
 
-    /* 4. Botones de Sesión (Login/Registro) juntos y ordenados */
+    /* 4. Los botones de Login y Registro se acomodan en una fila limpia */
     .header-actions {
         width: 100% !important;
+        display: flex !important;
         justify-content: center !important;
-        gap: 10px !important;
-        order: 3;
-        flex-wrap: wrap;
+        flex-wrap: wrap !important; /* Si no caben, bajan ordenadamente */
+        gap: 8px !important;
     }
 
-    /* 5. Ajuste de los botones para que no se encimen */
+    /* 5. Ajustamos el tamaño de los botones para que no se encimen */
     .btn-login-outline, .btn-register-fill {
-        padding: 8px 15px !important;
-        font-size: 0.8rem !important;
-        flex: 1; /* Para que midan lo mismo */
-        text-align: center;
+        padding: 8px 12px !important;
+        font-size: 0.75rem !important;
+        flex: 1 1 auto !important; /* Se ajustan al tamaño de la pantalla */
+        text-align: center !important;
+        white-space: nowrap !important; /* Evita que el texto se parta en dos */
     }
 
-    /* 6. Carrito flotante a la derecha para que no estorbe */
+    /* 6. El Carrito se va a la esquina superior derecha para no estorbar */
     a[title="Ver Carrito"] {
         position: absolute !important;
         top: 15px !important;
         right: 15px !important;
-        margin: 0 !important;
+        background: #ff4b9a !important;
+        padding: 8px !important;
+        border-radius: 50% !important;
+        box-shadow: 0 4px 10px rgba(255, 75, 154, 0.3) !important;
     }
+    a[title="Ver Carrito"] i { color: white !important; font-size: 1rem !important; }
 }
     </style>
 </head>
