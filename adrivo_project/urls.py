@@ -4,6 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from inventario import views
+from django.views.static import serve
+from django.urls import re_path
 
 urlpatterns = [
     # ADMIN Y REPORTES
@@ -51,6 +53,7 @@ urlpatterns = [
     
 ]
 
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+]
     
