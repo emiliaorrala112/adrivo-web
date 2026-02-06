@@ -2,6 +2,9 @@ import os
 from pathlib import Path
 import dj_database_url  
 from django.conf import settings
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-clave-secreta-adrivo-final'
@@ -9,6 +12,8 @@ DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'cloudinary_storage',  
+    'cloudinary',
     'jazzmin',                
     'django.contrib.admin',
     'django.contrib.auth',
@@ -219,6 +224,15 @@ else:
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 LOGIN_URL = 'login'
-# Configuración para que Django sepa dónde guardar y buscar las fotos
+# --- CONFIGURACIÓN CLOUDINARY (FOTOS ETERNAS) ---
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'ddawyzbgk',             # Ya te lo puse yo :)
+    'API_KEY': '339853434156423',    # <--- Pega la Clave API aquí
+    'API_SECRET': 'PGx74GnlHdSwpUudmynA2pfObv90',  # <--- Pega el Secreto API aquí
+}
+
+# Esto le dice a Django: "Las fotos súbelas a la nube, no al disco local"
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
