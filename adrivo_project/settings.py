@@ -78,10 +78,6 @@ TIME_ZONE = 'America/Guayaquil'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-STATICFILES_DIRS = [BASE_DIR / "static"]
 # ==============================================
 # CONFIGURACIÓN GENERAL DE JAZZMIN
 # ==============================================
@@ -208,38 +204,44 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'variedades.adrivo.r@gmail.com'
 EMAIL_HOST_PASSWORD = 'nvltgcyuqqdblctz' 
 
+## ... (Aquí arriba está tu configuración de EMAIL, NO LA BORRES) ...
+
+# =========================================================
+# CONFIGURACIÓN DE ARCHIVOS (LIMPIEZA FINAL PARA DJANGO 5)
+# =========================================================
+# --- BORRA DESDE AQUÍ ---
 # settings.py
-# Configuración de Archivos Estáticos
-STATIC_URL = 'static/'
+# =========================================================
+# CONFIGURACIÓN MAESTRA DE ARCHIVOS (DJANGO 5.1)
+# =========================================================
+
+# 1. Rutas Web
+STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+LOGIN_URL = 'login'
+
+# 2. Carpetas Físicas
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Esto le dice a Django dónde guardar los archivos
-if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
-LOGIN_URL = 'login'
-# --- CONFIGURACIÓN CLOUDINARY (FOTOS ETERNAS) ---
-
+# 3. Tus Llaves de Cloudinary (¡NO LAS BORRES!)
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'ddawyzbgk',             
-    'API_KEY': '339853434156423',    # <--- CONFIRMA TU CLAVE
-    'API_SECRET': 'PGx74GnlHdSxpUudmynA2pfObv90',  # <--- CONFIRMA TU SECRETO
+    'CLOUD_NAME': 'ddawyzbgk',
+    'API_KEY': '339853434156423',
+    'API_SECRET': 'PGx74GnlHdSxpUudmynA2pfObv90'
 }
 
-# En Django 5.1, ESTA es la forma obligatoria de activarlo:
+# 4. EL CEREBRO NUEVO (Esto es lo que activa la nube)
 STORAGES = {
+    # Fotos de productos -> Se van a Cloudinary
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
+    # Diseño (CSS) -> Se queda en Render (Whitenoise)
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
-MEDIA_URL = '/media/'  # Esto se queda igual para referencia
+# 3. URL de Login
+LOGIN_URL = 'login'
