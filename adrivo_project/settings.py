@@ -206,36 +206,40 @@ EMAIL_HOST_PASSWORD = 'nvltgcyuqqdblctz'
 
 
 # =========================================================
-# CONFIGURACIÓN DE ARCHIVOS (LIMPIEZA FINAL PARA DJANGO 5)
+# CONFIGURACIÓN FINAL (EL TRUCO PARA QUE NO FALLE)
+# =========================================================
 
-# 1. Rutas Web
+import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# 1. Rutas Básicas
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 LOGIN_URL = 'login'
 
-# 2. Carpetas Físicas
+# 2. Carpetas
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# 3. Tus Llaves de Cloudinary
+# 3. Llaves Cloudinary
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'ddawyzbgk',
     'API_KEY': '339853434156423',
     'API_SECRET': 'PGx74GnlHdSxpUudmynA2pfObv90'
 }
 
-# 4. EL CEREBRO NUEVO (STORAGES)
-# Este bloque sustituye a todo lo viejo que borraste arriba
+# 4. ¡EL TRUCO! Agregamos esta línea vieja para que la librería no llore
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# 5. La Configuración Real para Django 5
 STORAGES = {
-    # A) Fotos de productos -> Se van a Cloudinary ☁️
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
-    # B) Diseño (CSS) -> Se queda en Render con Whitenoise 🎨
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
-LOGIN_URL = 'login'
