@@ -204,16 +204,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'variedades.adrivo.r@gmail.com'
 EMAIL_HOST_PASSWORD = 'nvltgcyuqqdblctz' 
 
-## ... (Aquí arriba está tu configuración de EMAIL, NO LA BORRES) ...
 
 # =========================================================
 # CONFIGURACIÓN DE ARCHIVOS (LIMPIEZA FINAL PARA DJANGO 5)
-# =========================================================
-# --- BORRA DESDE AQUÍ ---
-# settings.py
-# =========================================================
-# CONFIGURACIÓN MAESTRA DE ARCHIVOS (DJANGO 5.1)
-# =========================================================
 
 # 1. Rutas Web
 STATIC_URL = '/static/'
@@ -225,23 +218,24 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# 3. Tus Llaves de Cloudinary (¡NO LAS BORRES!)
+# 3. Tus Llaves de Cloudinary
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'ddawyzbgk',
     'API_KEY': '339853434156423',
     'API_SECRET': 'PGx74GnlHdSxpUudmynA2pfObv90'
 }
 
-# 4. EL CEREBRO NUEVO (Esto es lo que activa la nube)
+# 4. EL CEREBRO NUEVO (STORAGES)
+# Este bloque sustituye a todo lo viejo que borraste arriba
 STORAGES = {
-    # Fotos de productos -> Se van a Cloudinary
+    # A) Fotos de productos -> Se van a Cloudinary ☁️
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
-    # Diseño (CSS) -> Se queda en Render (Whitenoise)
+    # B) Diseño (CSS) -> Se queda en Render con Whitenoise 🎨
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-# 3. URL de Login
+
 LOGIN_URL = 'login'
