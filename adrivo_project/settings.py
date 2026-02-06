@@ -2,9 +2,9 @@ import os
 from pathlib import Path
 import dj_database_url  
 from django.conf import settings
-import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import cloudinary
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-clave-secreta-adrivo-final'
@@ -227,12 +227,19 @@ LOGIN_URL = 'login'
 # --- CONFIGURACIÓN CLOUDINARY (FOTOS ETERNAS) ---
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'ddawyzbgk',             # Ya te lo puse yo :)
-    'API_KEY': '339853434156423',    # <--- Pega la Clave API aquí
-    'API_SECRET': 'PGx74GnlHdSwpUudmynA2pfObv90',  # <--- Pega el Secreto API aquí
+    'CLOUD_NAME': 'ddawyzbgk',             
+    'API_KEY': '339853434156423',    # <--- CONFIRMA TU CLAVE
+    'API_SECRET': 'PGx74GnlHdSxpUudmynA2pfObv90',  # <--- CONFIRMA TU SECRETO
 }
 
-# Esto le dice a Django: "Las fotos súbelas a la nube, no al disco local"
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# En Django 5.1, ESTA es la forma obligatoria de activarlo:
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/media/'  # Esto se queda igual para referencia
