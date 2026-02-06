@@ -206,35 +206,34 @@ EMAIL_HOST_PASSWORD = 'nvltgcyuqqdblctz'
 
 
 # =========================================================
-# CONFIGURACIÓN FINAL (EL TRUCO PARA QUE NO FALLE)
+# CONFIGURACIÓN FINAL (FIX PARA EL ERROR ROJO)
 # =========================================================
-
 import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-# 1. Rutas Básicas
+# 1. Rutas Web
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 LOGIN_URL = 'login'
 
-# 2. Carpetas
+# 2. Carpetas Físicas
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# 3. Llaves Cloudinary
+# 3. Tus Llaves de Cloudinary (ESTO ES LO QUE GUARDA LAS FOTOS)
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'ddawyzbgk',
     'API_KEY': '339853434156423',
     'API_SECRET': 'PGx74GnlHdSxpUudmynA2pfObv90'
 }
 
-# 4. ¡EL TRUCO! Agregamos esta línea vieja para que la librería no llore
+# 4. ¡EL PARCHE! Esta línea engaña a la librería para que no de error
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# 5. La Configuración Real para Django 5
+# 5. La Configuración Real (Django 5)
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
