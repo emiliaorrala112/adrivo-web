@@ -154,50 +154,72 @@
         .site-footer { background: white; border-top: 2px solid #fff0f6; padding: 30px; text-align: center; color: #999; font-size: 0.9rem; margin-top: auto; font-weight: 600; }
 
         /* --- CÓDIGO (RESPONSIVE) --- */
-    @media (max-width: 768px) {
-    /* 1. Header fluido y compacto */
-    .sticky-header { position: relative !important; width: 100% !important; }
-    .header-top { 
-        padding: 5px 8px !important; 
-        display: flex !important; 
-        flex-direction: column !important; 
-        gap: 5px !important; 
+    /* --- ARREGLO FINAL: TODO EN ORDEN Y COMPACTO --- */
+@media (max-width: 768px) {
+    /* 1. El header se va cuando bajas con el dedo (No estorba) */
+    .sticky-header { 
+        position: relative !important; 
+        width: 100% !important; 
+        box-shadow: none !important;
+    }
+
+    .header-top {
+        display: flex !important;
+        flex-direction: column !important; /* Todo uno debajo de otro */
+        padding: 5px 10px !important;
+        gap: 8px !important;
     }
 
     /* 2. Logo y Carrito en la misma línea superior */
-    .top-bar-mobile {
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        width: 100% !important;
-    }
-    .brand-badge img { height: 32px !important; width: 32px !important; }
+    .brand-badge { width: 100% !important; justify-content: center !important; }
+    .brand-badge img { height: 35px !important; width: 35px !important; }
     .brand-badge span { font-size: 1.1rem !important; }
 
-    /* 3. El Buscador: Más delgado para ahorrar espacio */
+    /* 3. Buscador delgado */
     .search-form { width: 100% !important; margin: 0 !important; }
-    .search-input { height: 32px !important; font-size: 0.8rem !important; padding: 5px 15px !important; }
+    .search-input { height: 32px !important; font-size: 0.8rem !important; }
 
-    /* 4. BOTONES: La solución para que calcen perfecto */
+    /* 4. RECUPERAMOS LOS BOTONES (Nosotros, Login, Registro) */
     .header-actions {
         display: flex !important;
         justify-content: center !important;
+        align-items: center !important;
         width: 100% !important;
-        gap: 5px !important; /* Espacio mínimo entre botones */
-        margin-top: 2px !important;
+        gap: 10px !important;
+        flex-wrap: wrap !important; /* Se acomodan si no caben */
     }
 
+    /* Enlace "Nosotros" pequeño */
+    a[title="Sobre Nosotros"] { 
+        display: flex !important; 
+        font-size: 0.75rem !important; 
+        margin: 0 !important;
+        color: #555 !important;
+    }
+
+    /* Botones de Sesión uno al lado del otro */
     .btn-login-outline, .btn-register-fill {
-        flex: 1 !important; /* Cada uno ocupa la mitad de la pantalla */
-        padding: 6px 2px !important; /* Menos relleno para que quepa el texto */
-        font-size: 0.72rem !important; /* Tamaño de letra pequeño pero legible */
-        text-align: center !important;
-        white-space: nowrap !important; /* Evita que el texto se salte de línea */
+        display: inline-block !important;
+        padding: 5px 10px !important;
+        font-size: 0.7rem !important;
         border-radius: 8px !important;
+        margin: 0 !important;
+        text-align: center;
+        flex: 1; /* Crecen igual para llenar el ancho */
+        min-width: 90px;
     }
 
-    /* Escondemos iconos extras que estorben en el primer vistazo móvil */
-    .header-actions a[title="Sobre Nosotros"] { display: none !important; }
+    /* 5. Carrito flotando a la derecha para que no ocupe fila */
+    a[title="Ver Carrito"] {
+        position: absolute !important;
+        top: 10px !important;
+        right: 10px !important;
+        background: #ff4b9a !important;
+        width: 32px !important; height: 32px !important;
+        border-radius: 50% !important;
+        display: flex !important; align-items: center; justify-content: center;
+    }
+    a[title="Ver Carrito"] i { color: white !important; font-size: 0.9rem !important; }
 }
     </style>
 </head>
