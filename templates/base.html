@@ -154,9 +154,9 @@
         .site-footer { background: white; border-top: 2px solid #fff0f6; padding: 30px; text-align: center; color: #999; font-size: 0.9rem; margin-top: auto; font-weight: 600; }
 
         /* --- CÓDIGO (RESPONSIVE) --- */
-    /* --- ARREGLO FINAL: TODO EN ORDEN Y COMPACTO --- */
+    /* --- DISEÑO FINAL ULTRA-COMPACTO --- */
 @media (max-width: 768px) {
-    /* 1. El header se va cuando bajas con el dedo (No estorba) */
+    /* 1. Header que se esconde al bajar (No es fijo) */
     .sticky-header { 
         position: relative !important; 
         width: 100% !important; 
@@ -164,62 +164,58 @@
     }
 
     .header-top {
+        padding: 4px 8px !important; /* Espacio mínimo */
         display: flex !important;
-        flex-direction: column !important; /* Todo uno debajo de otro */
-        padding: 5px 10px !important;
-        gap: 8px !important;
+        flex-direction: column !important;
+        gap: 5px !important;
     }
 
-    /* 2. Logo y Carrito en la misma línea superior */
-    .brand-badge { width: 100% !important; justify-content: center !important; }
-    .brand-badge img { height: 35px !important; width: 35px !important; }
-    .brand-badge span { font-size: 1.1rem !important; }
+    /* 2. Logo pequeño y Carrito a la derecha */
+    .brand-badge { width: 100% !important; justify-content: flex-start !important; }
+    .brand-badge img { height: 28px !important; width: 28px !important; }
+    .brand-badge span { font-size: 0.95rem !important; }
 
-    /* 3. Buscador delgado */
-    .search-form { width: 100% !important; margin: 0 !important; }
-    .search-input { height: 32px !important; font-size: 0.8rem !important; }
+    /* 3. Buscador muy delgado */
+    .search-form { width: 100% !important; }
+    .search-input { height: 28px !important; font-size: 0.75rem !important; padding: 2px 10px !important; }
 
-    /* 4. RECUPERAMOS LOS BOTONES (Nosotros, Login, Registro) */
+    /* 4. RECUPERAMOS TODO: Nosotros + Login + Registro en una fila */
     .header-actions {
         display: flex !important;
-        justify-content: center !important;
+        justify-content: space-between !important;
         align-items: center !important;
         width: 100% !important;
-        gap: 10px !important;
-        flex-wrap: wrap !important; /* Se acomodan si no caben */
+        gap: 4px !important;
     }
 
-    /* Enlace "Nosotros" pequeño */
-    a[title="Sobre Nosotros"] { 
-        display: flex !important; 
-        font-size: 0.75rem !important; 
-        margin: 0 !important;
+    /* Link de Nosotros e iconos pequeños */
+    a[title="Sobre Nosotros"], .icon-btn {
+        font-size: 0.65rem !important; 
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
         color: #555 !important;
+        gap: 2px;
     }
+    .header-actions i { font-size: 0.85rem !important; }
 
-    /* Botones de Sesión uno al lado del otro */
+    /* Botones de Iniciar/Registrar muy finos */
     .btn-login-outline, .btn-register-fill {
-        display: inline-block !important;
-        padding: 5px 10px !important;
-        font-size: 0.7rem !important;
-        border-radius: 8px !important;
-        margin: 0 !important;
+        padding: 4px 6px !important;
+        font-size: 0.62rem !important;
+        border-radius: 6px !important;
+        flex: 1; /* Ocupan el espacio sobrante */
         text-align: center;
-        flex: 1; /* Crecen igual para llenar el ancho */
-        min-width: 90px;
+        min-width: 75px;
     }
 
-    /* 5. Carrito flotando a la derecha para que no ocupe fila */
+    /* Carrito flotante minimalista */
     a[title="Ver Carrito"] {
         position: absolute !important;
-        top: 10px !important;
+        top: 5px !important;
         right: 10px !important;
-        background: #ff4b9a !important;
-        width: 32px !important; height: 32px !important;
-        border-radius: 50% !important;
-        display: flex !important; align-items: center; justify-content: center;
+        width: 28px !important; height: 28px !important;
     }
-    a[title="Ver Carrito"] i { color: white !important; font-size: 0.9rem !important; }
 }
     </style>
 </head>
