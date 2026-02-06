@@ -1,0 +1,183 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block content %}
+<style>
+    /* Estilos Pastel y Limpios para esta vista */
+    .stock-container { padding: 30px; }
+    
+    .stock-header {
+        display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;
+    }
+    .stock-title {
+        font-weight: 900; font-size: 2.5rem; color: #374151; text-transform: uppercase;
+        background: linear-gradient(90deg, #7c39df 0%, #3c7ffb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .stock-card {
+        background: white; border-radius: 25px; padding: 5px;
+        box-shadow: 0 0 30px rgba(244, 114, 182, 0.2);
+        border: 3px solid #FBCFE8; overflow: hidden;
+    }
+
+    .stock-table { width: 100%; border-collapse: collapse; }
+    
+    .stock-table thead th {
+        background: linear-gradient(90deg, #a453e3 0%, #4317c9 100%);
+        color: white; padding: 20px; text-transform: uppercase; font-weight: 800; text-align: center;
+    }
+
+    .stock-table tbody tr { border-bottom: 1px solid #f3f4f6; transition: 0.2s; }
+    .stock-table tbody tr:hover { background: #fff0f6; transform: scale(1.01); }
+    .stock-table td { padding: 15px; vertical-align: middle; text-align: center; color: #374151; font-weight: 600; }
+
+    /* Etiquetas */
+    .badge-critico { background: #fee2e2; color: #dc2626; padding: 8px 15px; border-radius: 30px; font-size: 0.8rem; border: 1px solid #fecaca; }
+    .badge-bajo { background: #ffedd5; color: #ea580c; padding: 8px 15px; border-radius: 30px; font-size: 0.8rem; border: 1px solid #fed7aa; }
+    .badge-ok { background: #dcfce7; color: #16a34a; padding: 8px 15px; border-radius: 30px; font-size: 0.8rem; border: 1px solid #bbf7d0; }
+
+    /* =========================================
+       CORRECCIÓN FINAL: BONITO, PEQUEÑO Y DESLIZABLE
+       (Pegar esto DENTRO de las etiquetas <style>, al final)
+       ========================================= */
+    @media (max-width: 900px) {
+
+        /* 1. AJUSTAR EL CONTENEDOR A LA PANTALLA */
+        .stock-container { 
+            padding: 10px !important; 
+            width: 100vw !important; 
+            overflow-x: hidden !important; 
+        }
+
+        /* 2. ENCABEZADO Y BOTÓN (Ajustados) */
+        .stock-header { 
+            flex-direction: column !important; 
+            gap: 10px !important; 
+            text-align: center !important; 
+            margin-bottom: 15px !important;
+        }
+        .stock-title { font-size: 1.5rem !important; }
+        .btn-primary { width: 100% !important; margin-top: 5px !important; padding: 10px !important; }
+
+        /* 3. TARJETA BONITA PERO DESLIZABLE */
+        .stock-card {
+            display: block !important;
+            width: 100% !important;
+            padding: 0 !important;
+            
+            /* Mantenemos tu borde y sombra bonitos */
+            border: 2px solid #FBCFE8 !important; 
+            box-shadow: 0 4px 10px rgba(244, 114, 182, 0.2) !important;
+            border-radius: 15px !important;
+
+            /* ¡ESTO ACTIVA EL DESLIZAMIENTO! */
+            overflow-x: scroll !important; 
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 4. TABLA ANCHA (El secreto para que deslice) */
+        .stock-table {
+            min-width: 700px !important; /* Fuerza el ancho */
+            width: 700px !important;
+        }
+
+        /* 5. MODO PEQUEÑO (Letra y espacios reducidos) */
+        .stock-table th {
+            padding: 5px !important;
+            font-size: 10px !important; /* Títulos pequeños */
+            white-space: nowrap !important;
+        }
+
+        .stock-table td {
+            padding: 5px !important;
+            font-size: 11px !important; /* Texto de datos pequeño */
+            white-space: nowrap !important; 
+            height: 35px !important;
+        }
+
+        /* 6. IMÁGENES PEQUEÑAS */
+        .stock-table img {
+            width: 30px !important; 
+            height: 30px !important;
+            border-radius: 5px !important;
+        }
+        
+        /* 7. ETIQUETAS PEQUEÑAS */
+        .badge-critico, .badge-bajo, .badge-ok {
+            padding: 2px 8px !important;
+            font-size: 9px !important;
+        }
+    }
+
+</style>
+
+<div class="stock-container">
+    <div class="stock-header">
+        <h1 class="stock-title">📦 Inventario & Stock</h1>
+        <a href="{% url 'admin:inventario_producto_add' %}" class="btn-primary" style="text-decoration: none; padding: 10px 20px; border-radius: 50px; background: #F472B6; color: white; font-weight: bold;">
+            + Nuevo Producto
+        </a>
+    </div>
+
+    <div class="stock-card">
+        <table class="stock-table">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th style="text-align: left; padding-left: 30px;">Producto</th>
+                    <th>Precio</th>
+                    <th>Stock Actual</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in productos %}
+                <tr>
+                    <td>
+                        {% if p.imagen %}
+                            <img src="{{ p.imagen.url }}" style="width: 50px; height: 50px; border-radius: 10px; object-fit: cover;">
+                        {% else %}
+                            <span>📦</span>
+                        {% endif %}
+                    </td>
+                    <td style="text-align: left; padding-left: 30px;">
+                        <div style="font-size: 1.1rem; color: #574fe2; font-weight: 800;">{{ p.nombre }}</div>
+                        <div style="font-size: 0.85rem; color: #9ca3af;">{{ p.marca.nombre|default:"-" }}</div>
+                    </td>
+                    <td>${{ p.precio }}</td>
+                    
+                    <td>
+                        <span style="font-size: 1.3rem; font-weight: 800;">{{ p.stock }}</span>
+                    </td>
+
+                    <td>
+                        {% if p.stock == 0 %}
+                            <span class="badge-critico">AGOTADO</span>
+                        {% elif p.stock <= p.stock_minimo %}
+                            <span class="badge-critico">CRÍTICO</span>
+                        {% elif p.stock <= 20 %}
+                            <span class="badge-bajo">BAJO</span>
+                        {% else %}
+                            <span class="badge-ok">EN ORDEN</span>
+                        {% endif %}
+                    </td>
+                    
+                    <td>
+                        <a href="{% url 'admin:inventario_producto_change' p.id %}" style="color: #F472B6; font-size: 1.2rem;" title="Editar">
+                            ✏️
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="padding: 50px; color: #999;">
+                        No se encontraron productos en la base de datos.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

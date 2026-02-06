@@ -1,0 +1,118 @@
+/* ============================================================
+   ESTILOS DE USUARIOS - FIX DE CAJAS CORTADAS
+   ============================================================ */
+
+/* 1. EL CONTENEDOR DE LA FILA */
+fieldset .form-row {
+    padding: 20px !important; 
+    border-bottom: 1px solid #f0f0f0; 
+    width: 100% !important; 
+    box-sizing: border-box !important; /* Evita que el padding sume ancho extra */
+}
+
+/* 2. EL CONTENEDOR FLEXIBLE (La clave del orden) */
+.selector {
+    width: 100% !important; 
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: space-between !important; 
+    margin-top: 15px !important;
+    gap: 10px !important; /* Espacio real entre las cajas */
+}
+
+/* 3. LAS CAJAS (IZQUIERDA Y DERECHA) */
+.selector-available, .selector-chosen {
+    flex: 1 !important;            /* Ocupan el espacio disponible equitativamente */
+    width: auto !important;        /* Dejamos que Flex decida el ancho */
+    max-width: 47% !important;     /* Tope para que no aplasten las flechas */
+    min-width: 200px !important;   /* Bajamos el mínimo para que entren en pantallas chicas */
+    height: 350px !important;
+    background: white !important; 
+    border: 1px solid #e0e5f2 !important;
+    border-radius: 12px !important; /* Bordes más suaves */
+    padding: 0 !important; 
+    margin: 0 !important;
+    overflow: hidden; 
+    display: flex; 
+    flex-direction: column;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important; /* Sombra sutil */
+}
+
+/* Títulos de las cajas */
+.selector h2 {
+    background: #f4f7fe !important; 
+    color: #1b2559 !important;
+    margin: 0 !important; 
+    padding: 15px !important; 
+    font-size: 0.9rem; 
+    text-align: center; 
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e0e5f2;
+}
+
+/* Lista de opciones (Scroll) */
+.selector select { 
+    flex-grow: 1; 
+    border: none !important; 
+    padding: 10px; 
+    font-size: 0.9rem;
+    overflow-x: auto !important; 
+    white-space: nowrap; 
+    background: white;
+    color: #555;
+    outline: none !important;
+}
+
+/* 4. LAS FLECHAS DEL CENTRO */
+.selector-chooser { 
+    flex: 0 0 50px !important; /* Ancho fijo para las flechas */
+    text-align: center; 
+    list-style: none; 
+    padding: 0; 
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    justify-content: center !important;
+}
+
+/* Botones de flecha redondos */
+.selector-add, .selector-remove {
+    background: linear-gradient(135deg, #4318FF 0%, #2B3674 100%) !important; /* Degradado azul */
+    width: 35px !important; 
+    height: 35px !important;
+    border-radius: 50%; 
+    border: none; 
+    cursor: pointer; 
+    position: relative; 
+    margin: 0 auto !important;
+    box-shadow: 0 4px 10px rgba(67, 24, 255, 0.4);
+    transition: transform 0.2s;
+}
+
+.selector-add:hover, .selector-remove:hover {
+    transform: scale(1.1);
+}
+
+/* Iconos de flecha */
+.selector-add:after { 
+    content: '➜'; 
+    color: white; 
+    position: absolute; 
+    top: 50%; left: 50%; 
+    transform: translate(-50%, -50%); /* Centrado perfecto */
+    font-size: 14px; 
+    font-weight: bold;
+}
+
+.selector-remove:after { 
+    content: '➜'; 
+    color: white; 
+    position: absolute; 
+    top: 50%; left: 50%; 
+    transform: translate(-50%, -50%) rotate(180deg); /* Centrado y rotado */
+    font-size: 14px; 
+    font-weight: bold;
+}

@@ -1,0 +1,227 @@
+/* ============================================================
+   ADRIVO R. - DISEÑO BLINDADO DE PRODUCTOS (V-EQUILIBRIO)
+   (Nombre 30% | Stock 15% | Imagen 40% | Eliminar 15%)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg-main: #f4f7fe;
+    --sidebar-bg: #0b1437;
+    --text-dark: #1b2559;
+    --main-grad: linear-gradient(90deg, #5b2eea 0%, #4481eb 100%); 
+}
+
+/* 1. GENERAL */
+body { font-family: 'Outfit', sans-serif !important; background: var(--bg-main) !important; color: var(--text-dark) !important; }
+.main-sidebar { background: var(--sidebar-bg) !important; box-shadow: 5px 0 25px rgba(11,20,55,0.3); }
+.brand-link { background: var(--sidebar-bg) !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; text-align: center !important; padding: 25px 10px !important; }
+.brand-text { background: linear-gradient(to right, #fff, #4facfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900 !important; text-transform: uppercase; }
+.nav-link { color: #a3aed0 !important; transition: 0.2s; }
+.nav-link.active { background: linear-gradient(135deg, #7551ff 0%, #b5179e 100%) !important; color: white !important; font-weight: 700; box-shadow: 0 4px 15px rgba(181, 23, 158, 0.4); }
+
+/* BOTONES GLOBALES */
+.btn-primary, input[type="submit"], .submit-row input, #changelist-search input[type="submit"] {
+    background: var(--main-grad) !important; border: none !important; border-radius: 50px !important; color: white !important; font-weight: 800 !important; padding: 10px 30px !important; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 15px rgba(68, 129, 235, 0.35); transition: 0.3s;
+}
+#changelist-search { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 20px rgba(112,144,176,0.05); margin-bottom: 20px; display: flex; gap: 10px; width: fit-content; }
+#changelist-search input[type="text"] { border: 1px solid #e0e5f2; border-radius: 10px; padding: 8px; width: 300px; }
+
+
+/* --- LISTA PRINCIPAL --- */
+.model-producto #result_list { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; background: white; border-radius: 15px; overflow: hidden; }
+.model-producto #result_list thead th { background: #111c44 !important; color: white !important; padding: 18px 15px !important; text-transform: uppercase; font-weight: 800; border: none !important; position: relative; }
+.model-producto #result_list thead th a { color: white !important; text-decoration: none; }
+.model-producto #result_list thead th::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--main-grad) !important; }
+.model-producto #result_list tbody tr:hover { background: #fdfaff !important; transform: scale(1.002); box-shadow: 0 5px 15px rgba(117, 81, 255, 0.15); z-index: 5; position: relative; }
+.model-producto #result_list tbody td { padding: 15px !important; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+.model-producto #result_list .img-zoom { transition: 0.3s; cursor: zoom-in; }
+.model-producto #result_list .img-zoom:hover { transform: scale(3.5); z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 2px solid white; border-radius: 10px !important; }
+
+/* --- PESTAÑAS --- */
+.model-producto .changeform-tabs ul { background: transparent !important; border-bottom: 2px solid #e0e5f2 !important; padding: 0 !important; margin: 20px 0 30px 0 !important; display: flex !important; gap: 10px !important; }
+.model-producto .changeform-tabs ul li { list-style: none !important; background: transparent !important; margin: 0 !important; }
+.model-producto .changeform-tabs ul li a { background: transparent !important; color: #a3aed0 !important; font-weight: 700 !important; padding: 10px 20px !important; font-size: 1rem !important; text-transform: uppercase !important; border-bottom: 3px solid transparent !important; transition: 0.3s; display: block !important; }
+.model-producto .changeform-tabs ul li.selected a { color: #4318FF !important; border-bottom: 3px solid #4318FF !important; }
+
+
+/* --- VARIACIONES (TABLA INTERNA) --- */
+.model-producto .inline-group { background: white !important; border-radius: 20px !important; padding: 25px !important; margin-top: 20px !important; border: 1px solid #e0e5f2 !important; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+.model-producto .inline-group h2 { display: none !important; }
+
+.model-producto .tabular table { width: 100% !important; border-collapse: separate !important; border-spacing: 0 20px !important; table-layout: fixed !important; margin: 0 !important; }
+.model-producto .tabular tr.empty-form { display: none !important; }
+.model-producto .tabular td.original, .model-producto .tabular th:first-child { width: 0 !important; padding: 0 !important; display: none !important; }
+
+/* 1. NOMBRE (GRANDE: 30%) */
+.model-producto .tabular th:nth-child(2), .model-producto .tabular td:nth-child(2) { width: 30% !important; text-align: center !important; }
+.model-producto .tabular td:nth-child(2) input { 
+    width: 95% !important; height: 50px !important; 
+    border: 3px solid #7c3aed !important; border-radius: 15px !important; background: #f5f3ff !important; 
+    color: #4c1d95; font-weight: 700; text-align: center; display: block; margin: 0 auto; 
+}
+
+/* 2. STOCK (AUMENTADO: 15% - Para que se vea el número) */
+.model-producto .tabular th:nth-child(3), .model-producto .tabular td:nth-child(3) { width: 15% !important; text-align: center !important; }
+.model-producto .tabular td:nth-child(3) input { 
+    width: 90% !important; height: 50px !important; 
+    border: 3px solid #ec4899 !important; border-radius: 15px !important; background: #fdf2f8 !important; 
+    color: #be185d; font-weight: 800; text-align: center; display: block; margin: 0 auto; 
+}
+
+/* 3. IMAGEN (40% - LEVEMENTE AJUSTADO) */
+.model-producto .tabular th:nth-child(4) { width: 40% !important; text-align: left !important; padding-left: 20px !important; }
+.model-producto .tabular td:nth-child(4) { width: 40% !important; padding-left: 20px !important; text-align: left !important; }
+.model-producto .tabular td:nth-child(4) a { display: inline-block !important; color: #4318FF !important; font-weight: 800; text-decoration: none; margin-bottom: 8px !important; background: #f4f7fe; padding: 6px 12px; border-radius: 8px; word-break: break-all; }
+.model-producto .tabular td:nth-child(4) input[type="file"] { display: block !important; width: 100% !important; padding: 10px !important; border: 3px dashed #ff6d00 !important; border-radius: 12px !important; background: #fff7ed !important; cursor: pointer; }
+.model-producto .tabular td:nth-child(4) input[type="checkbox"], .model-producto .tabular td:nth-child(4) label { display: none !important; }
+
+/* 4. ELIMINAR (15%) */
+.model-producto .tabular th:last-child, .model-producto .tabular td:last-child { width: 15% !important; text-align: center !important; }
+
+.model-producto .tabular td:last-child input[type="checkbox"], 
+.model-producto .tabular td:last-child a.inline-deletelink { 
+    appearance: none !important; 
+    display: inline-flex !important; justify-content: center !important; align-items: center !important; 
+    width: 90px !important; height: 40px !important; 
+    background: #ef4444 !important; border-radius: 12px !important; cursor: pointer !important; 
+    margin: 0 auto !important; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important; 
+    text-decoration: none !important; 
+    font-size: 0 !important; 
+}
+.model-producto .tabular td:last-child input[type="checkbox"]::after, 
+.model-producto .tabular td:last-child a.inline-deletelink::after { 
+    content: 'ELIMINAR'; 
+    color: white !important; font-weight: 800 !important; font-size: 0.7rem !important; text-transform: uppercase !important; 
+}
+.model-producto .tabular td:last-child input[type="checkbox"]:checked { background: #991b1b !important; transform: scale(0.95); }
+
+/* AGREGAR (AZUL/MORADO) */
+.model-producto .tabular tr.add-row td { padding: 30px 0 !important; background: transparent !important; border: none !important; text-align: right !important; }
+.model-producto .tabular tr.add-row a { 
+    display: inline-block !important; 
+    background: var(--main-grad) !important; 
+    color: white !important; padding: 15px 50px !important; border-radius: 50px !important; font-weight: 800; text-transform: uppercase; box-shadow: 0 8px 25px rgba(68, 129, 235, 0.4); text-decoration: none !important; 
+}
+.model-producto .tabular tr.add-row a::before { content: '+ '; font-size: 1.2rem; margin-right: 5px; }
+/* ============================================================
+   CORRECCIÓN FINAL: SCROLL EN TODO (VARIACIONES + LISTA PRINCIPAL)
+   ============================================================ */
+@media (max-width: 900px) {
+
+    /* 1. DESBLOQUEO GENERAL */
+    #content, #content-main, .change-form, .inline-group, .results, fieldset {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important; 
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    /* ---------------------------------------------------------
+       A. LISTA PRINCIPAL (La de productos con fotos)
+       --------------------------------------------------------- */
+    
+    /* El Contenedor Deslizable */
+    .model-producto .results {
+        display: block !important;
+        width: 100vw !important;
+        margin-left: -5px !important;
+        overflow-x: scroll !important; /* ¡SCROLL ACTIVADO! */
+        -webkit-overflow-scrolling: touch;
+        background: white !important;
+        padding-bottom: 10px !important;
+    }
+
+    /* La Tabla Gigante */
+    .model-producto #result_list {
+        min-width: 900px !important; /* Fuerza el ancho para poder deslizar */
+        width: 900px !important;
+        border-collapse: collapse !important;
+    }
+
+    /* Celdas de la Lista Principal */
+    .model-producto #result_list th, 
+    .model-producto #result_list td {
+        padding: 10px !important;
+        white-space: nowrap !important; /* Texto en una línea */
+    }
+
+    /* ---------------------------------------------------------
+       B. VARIACIONES (La tabla interna que ya arreglamos)
+       --------------------------------------------------------- */
+    
+    /* El Contenedor Deslizable */
+    .model-producto .tabular {
+        display: block !important;
+        width: 100vw !important;
+        margin-left: -5px !important;
+        padding-bottom: 20px !important;
+        background: white !important;
+        overflow-x: scroll !important; /* ¡SCROLL ACTIVADO! */
+        -webkit-overflow-scrolling: touch;
+        border-top: 2px solid #ddd;
+    }
+
+    /* La Tabla Gigante de Variaciones */
+    .model-producto .tabular table {
+        min-width: 800px !important;
+        width: 800px !important;
+        display: table !important;
+        border-collapse: collapse !important;
+        table-layout: fixed !important;
+    }
+
+    /* Restructuración de Variaciones */
+    .model-producto .tabular thead { display: table-header-group !important; }
+    .model-producto .tabular tr { display: table-row !important; background: white; }
+    .model-producto .tabular th, .model-producto .tabular td { 
+        display: table-cell !important; 
+        vertical-align: middle !important;
+        border: 1px solid #eee !important;
+    }
+
+    /* Encabezados y Celdas Variaciones */
+    .model-producto .tabular th {
+        font-size: 10px !important;
+        text-transform: uppercase;
+        background: #f1f5f9 !important;
+        color: #333 !important;
+        padding: 5px !important;
+        height: 25px !important;
+    }
+
+    /* Inputs Variaciones (Modo Mini) */
+    .model-producto .tabular td input[type="text"],
+    .model-producto .tabular td input[type="number"] {
+        height: 28px !important;
+        font-size: 12px !important;
+        padding: 2px 5px !important;
+        border: 1px solid #aaa !important; 
+        border-radius: 3px !important;
+        background: #fff !important;
+        width: 90% !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }
+
+    /* Anchos Variaciones */
+    .model-producto .tabular th:nth-child(2), .model-producto .tabular td:nth-child(2) { width: 200px !important; }
+    .model-producto .tabular th:nth-child(3), .model-producto .tabular td:nth-child(3) { width: 80px !important; }
+    .model-producto .tabular th:nth-child(4), .model-producto .tabular td:nth-child(4) { width: 300px !important; }
+    .model-producto .tabular th:last-child, .model-producto .tabular td:last-child { width: 50px !important; }
+
+    /* Botón Eliminar Variaciones */
+    .model-producto .tabular td:last-child input[type="checkbox"] {
+        width: 20px !important; height: 20px !important;
+        margin: 0 auto !important;
+        background-color: #ef4444 !important;
+        appearance: none !important;
+        border-radius: 4px !important;
+        position: relative;
+    }
+    .model-producto .tabular td:last-child input[type="checkbox"]::after {
+        content: '×'; color: white; font-size: 18px; line-height: 20px;
+        position: absolute; top: 0; left: 0; width: 100%; text-align: center;
+    }
+}

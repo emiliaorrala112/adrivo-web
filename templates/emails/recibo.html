@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm;
+            padding: 0;
+            @frame footer_frame {
+                -pdf-frame-content: footerContent;
+                bottom: 0.5cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 1cm;
+            }
+        }
+
+        body {
+            font-family: Helvetica, sans-serif;
+            font-size: 9pt;
+            color: #555;
+            line-height: 1.3;
+        }
+
+        /* MARCO PRINCIPAL (Lila Adrivo) */
+        .page-border {
+            border: 2pt solid #7f658b; /* LILA FUERTE */
+            padding: 10pt;
+            border-radius: 10pt;
+            background-color: #fff;
+        }
+
+        /* --- CABECERA CON TOQUE TURQUESA --- */
+        table.header-table { 
+            width: 100%; 
+            /* El borde inferior es Turquesa para hacer el contraste */
+            border-bottom: 2pt solid #3ecadd; 
+            padding-bottom: 5pt;
+            margin-bottom: 15pt;
+        }
+
+        .header-title { 
+            font-size: 22pt; 
+            color: #dbb7f7; /* LILA */
+            font-weight: bold; 
+            text-transform: uppercase; 
+            margin: 0; 
+        }
+        
+        .header-sub { 
+            font-size: 9pt; 
+            color: #00bcd4; /* TURQUESA (Crea el efecto visual de mezcla) */
+            letter-spacing: 2pt; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+        }
+
+        .order-pill {
+            background-color: #e0f7fa; /* Fondo Turquesa suave */
+            color: #c187ee; /* Texto Lila */
+            padding: 5pt 10pt;
+            border-radius: 8pt;
+            font-weight: bold;
+            font-size: 10pt;
+            border: 1pt solid #00bcd4;
+            display: inline-block;
+        }
+
+        /* --- MENSAJE --- */
+        .msg-box {
+            background-color: #f3e5f5; /* Lila muy pálido */
+            color: #9752b4; /* Lila Oscuro */
+            padding: 6pt;
+            text-align: center;
+            font-size: 9pt;
+            border-radius: 5pt;
+            margin-bottom: 15pt;
+            border-left: 3pt solid #67dae9; /* Detalle Turquesa a la izquierda */
+            border-right: 3pt solid #61daea; /* Detalle Turquesa a la derecha */
+        }
+
+        /* --- INFO CAJAS --- */
+        .info-table { width: 100%; margin-bottom: 15pt; }
+        
+        .box-info { 
+            background-color: #fff; 
+            border: 1pt solid #e1bee7; /* Borde lila suave */
+            padding: 8pt; 
+            border-radius: 6pt; 
+        }
+        
+        /* Títulos de caja alternados para el "degradado" visual */
+        .lbl-main { 
+            color: #4fb2b6; /* Lila */
+            font-weight: bold; 
+            text-transform: uppercase; 
+            border-bottom: 1pt solid #e0aee8; 
+            margin-bottom: 4pt; 
+            font-size: 8pt; 
+        }
+        
+        .lbl-sec { 
+            color: #00acc1; /* Turquesa */
+            font-weight: bold; 
+            text-transform: uppercase; 
+            border-bottom: 1pt solid #b2ebf2; 
+            margin-bottom: 4pt; 
+            font-size: 8pt; 
+        }
+
+        /* --- PRODUCTOS (Encabezado Lila) --- */
+        .prod-table { width: 100%; border-collapse: collapse; margin-top: 5pt; }
+        
+        .th-prod { 
+            background-color: #c0a8fd; /* LILA DOMINANTE */
+            color: white; 
+            padding: 5pt; 
+            font-size: 9pt; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            text-align: left; 
+        }
+        
+        .td-prod { 
+            padding: 6pt 5pt; 
+            border-bottom: 1pt solid #f3e5f5; /* Gris/Lila suave */
+            font-size: 9pt; 
+            color: #444; 
+            vertical-align: middle; 
+        }
+        
+        /* Etiqueta de variación en Turquesa para resaltar */
+        .variant-tag { 
+            font-size: 8pt; 
+            color: #006064; 
+            background: #e0f7fa; 
+            padding: 1pt 4pt; 
+            border-radius: 3pt; 
+        }
+
+        /* --- TOTALES --- */
+        .total-table { width: 100%; margin-top: 10pt; }
+        
+        .grand-total { 
+            color: #9c27b0; /* LILA FUERTE */
+            font-size: 14pt; 
+            font-weight: bold; 
+            border-top: 1pt solid #ce93d8; 
+            padding-top: 5pt; 
+        }
+
+        /* FOOTER */
+        #footerContent { 
+            text-align: center; 
+            font-size: 8pt; 
+            color: #aaa; 
+            border-top: 1pt dotted #ccc; 
+            padding-top: 5pt; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-border">
+        
+        <table class="header-table" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="20%" align="center" valign="middle" style="padding-right: 10px;">
+                    {% if logo_base64 %}
+                        <img src="data:image/jpeg;base64,{{ logo_base64 }}" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #9c27b0; object-fit: cover;">
+                    {% else %}
+                        <div style="width: 80px; height: 80px; background-color: #f3e5f5; border-radius: 50%; line-height: 80px; text-align: center; color: #9c27b0; font-weight: bold; font-size: 30pt; border: 2px solid #00bcd4;">
+                            ✿
+                        </div>
+                    {% endif %}
+                </td>
+
+                <td width="50%" valign="middle">
+                    <div class="header-title">Adrivo R.</div>
+                    <div class="header-sub">Variedades ✿ Santa Elena ❤ Ecuador</div>
+                </td>
+                
+                <td width="30%" align="right" valign="middle">
+                    <div class="order-pill">ORDEN #{{ pedido.id|stringformat:"04d" }}</div>
+                    <div style="font-size: 8pt; color: #777; margin-top: 4pt;">
+                        {{ pedido.fecha|date:"d/m/Y" }}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="msg-box">
+            ¡Gracias por tu compra {{ pedido.usuario.first_name|default:" ❤ " }}!
+        </div>
+
+        <table class="info-table" cellspacing="5" cellpadding="0">
+            <tr>
+                <td width="48%" class="box-info" valign="top">
+                    <div class="lbl-main"> ❣ Cliente</div>
+                    <strong>{{ pedido.nombre_destinatario }}</strong><br>
+                    CI: {{ pedido.cedula }}<br>
+                    Tel: {{ pedido.telefono }}
+                </td>
+                <td width="4%"></td>
+                <td width="48%" class="box-info" valign="top">
+                    <div class="lbl-sec">☛ Envío</div>
+                    <strong>{{ pedido.provincia }} - {{ pedido.canton }}</strong><br>
+                    {{ pedido.direccion }}<br>
+                    <span style="color:#777; font-size:8pt;">❣ Ecuador</span>
+                </td>
+            </tr>
+        </table>
+
+        <table class="prod-table">
+            <thead>
+                <tr>
+                    <th class="th-prod" width="50%">✿ Producto</th>
+                    <th class="th-prod" width="10%" align="center" style="text-align:center;">Cant.</th>
+                    <th class="th-prod" width="20%" align="right" style="text-align:right;">Unitario</th>
+                    <th class="th-prod" width="20%" align="right" style="text-align:right;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for linea in pedido.lineas.all %}
+                <tr>
+                    <td class="td-prod">
+                        <strong style="color: #333;">{{ linea.producto.nombre }}</strong>
+                        {% if linea.variacion %}
+                            <br><span class="variant-tag">✿ {{ linea.variacion }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="td-prod" align="center" style="text-align:center;">
+                        <strong>{{ linea.cantidad }}</strong>
+                    </td>
+                    <td class="td-prod" align="right" style="text-align:right;">${{ linea.precio_unitario }}</td>
+                    <td class="td-prod" align="right" style="text-align:right; font-weight: bold; color: #c269d1;">${{ linea.subtotal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="total-table">
+            <tr>
+                <td width="55%"></td>
+                <td width="45%">
+                    <table width="100%">
+                        <tr>
+                            <td align="right" style="color:#777; padding-right:5pt;"> ❣ Subtotal:</td>
+                            <td align="right" style="font-weight:bold; color:#555;">${{ pedido.total_sin_envio|default:pedido.total }}</td>
+                        </tr>
+                        <tr>
+                            <td align="right" style="color:#777; padding-right:5pt;"> ✿ Envío:</td>
+                            <td align="right" style="font-weight:bold; color:#555;">${{ pedido.costo_envio }}</td>
+                        </tr>
+                        <tr>
+                            <td align="right" style="padding-top:5pt;"> ☛ TOTAL:</td>
+                            <td align="right">
+                                <div class="grand-total">${{ pedido.total }}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div id="footerContent">
+         ✿ | ☛ WhatsApp: 0996578334 | <i>Belleza & Estilo ✿</i>
+    </div>
+</body>
+</html>

@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+/* =======================================================
+   CORRECCIÓN FINAL: ICONOS EN FILA HORIZONTAL + COMPACTO
+   ======================================================= */
+@media (max-width: 900px) {
+
+    /* 1. LIBERAR EL ENCABEZADO PARA QUE SE ESCONDA AL BAJAR */
+    body.layout-navbar-fixed .wrapper .main-header,
+    .main-header, .navbar {
+        position: absolute !important; /* Absolute permite que se mueva */
+        top: 0 !important;
+        width: 100% !important;
+        background: white !important;
+        border: none !important;
+        min-height: auto !important;
+    }
+
+    /* 2. LOGO Y CARRITO FIJOS (Siempre visibles) */
+    .brand-badge {
+        position: fixed !important;
+        top: 0 !important; left: 0 !important; width: 100% !important; height: 50px !important;
+        background: white !important; z-index: 9999 !important;
+        display: flex !important; justify-content: center !important; align-items: center !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .brand-badge img { width: 30px !important; height: 30px !important; }
+    .brand-badge span { font-size: 1.2rem !important; color: #ff4b9a !important; font-weight: 800 !important; display: block !important; margin-left: 5px !important;}
+
+    /* CARRITO FLOTANTE */
+    a[title="Ver Carrito"] {
+        position: fixed !important; top: 8px !important; right: 10px !important; z-index: 10000 !important;
+        background: #ff4b9a !important; width: 34px !important; height: 34px !important; border-radius: 50% !important;
+        display: flex !important; justify-content: center !important; align-items: center !important;
+    }
+    a[title="Ver Carrito"] i { color: white !important; font-size: 0.9rem !important; margin: 0 !important;}
+
+    /* 3. ZONA DE BUSCADOR E ICONOS (Se mueven y esconden) */
+    .header-top {
+        display: flex !important;
+        flex-direction: column !important;
+        padding-top: 55px !important; /* Espacio para el logo fijo */
+        padding-bottom: 5px !important;
+        background: white !important;
+    }
+
+    /* BUSCADOR: Delgado */
+    .search-form { width: 95% !important; margin: 0 auto 5px auto !important; height: 35px !important;}
+    .search-form input { height: 100% !important; }
+
+    /* 4. ¡AQUÍ ESTÁ LA SOLUCIÓN DE LOS ICONOS! */
+    /* Esto obliga a que estén TODOS en una sola línea horizontal */
+    .header-actions {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important; /* FILA HORIZONTAL */
+        flex-wrap: nowrap !important;   /* PROHIBIDO BAJAR DE LÍNEA */
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 15px !important; /* Espacio entre iconos */
+        margin-top: 5px !important;
+    }
+
+    /* Ocultamos textos para que quepan */
+    .header-actions span { display: none !important; } 
+    .header-actions a[title="Sobre Nosotros"] span { display: none !important; }
+    
+    /* Iconos pequeños y alineados */
+    .header-actions i, .icon-btn { 
+        font-size: 1.2rem !important; 
+        color: #555 !important; 
+        margin: 0 !important; 
+        display: inline-block !important;
+    }
+    
+    /* Ocultar elementos extraños */
+    .wow-hero { margin-top: 0 !important; padding: 10px !important; }
+}
+</style>
+
+<div class="container" style="max-width: 1100px; margin: 60px auto; padding: 0 20px;">
+    
+    <div style="text-align: center; margin-bottom: 60px;">
+        <h1 style="font-family: 'Poppins', sans-serif; font-weight: 800; color: #333; font-size: 3rem; margin-bottom: 10px; letter-spacing: -1px;">
+            Nuestra Historia
+        </h1>
+        <div style="width: 60px; height: 4px; background: linear-gradient(90deg, #ff4b9a, #ba68c8); margin: 0 auto; border-radius: 10px;"></div>
+        <p style="color: #777; font-size: 1.1rem; margin-top: 20px; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Bienvenidos al universo de Adrivo R., donde el estilo, la belleza y la variedad se encuentran en un solo lugar.
+        </p>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 50px; margin-bottom: 80px;">
+        
+        <div style="flex: 1; min-width: 300px;">
+            <div style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                <img src="{% static 'logo_adrivo.jpg' %}" alt="Sobre Nosotros" style="width: 100%; display: block; object-fit: cover;">
+                
+                <div style="position: absolute; bottom: 20px; right: 20px; background: white; padding: 15px 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <span style="display: block; font-weight: 800; color: #ff4b9a; font-size: 1.5rem;">+500</span>
+                    <span style="color: #555; font-size: 0.8rem; font-weight: 600;">Clientes Felices</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="flex: 1; min-width: 300px;">
+            <h3 style="color: #333; font-weight: 700; font-size: 1.8rem; margin-bottom: 20px;">
+                Más que una tienda, un estilo de vida.
+            </h3>
+            <p style="color: #666; line-height: 1.8; margin-bottom: 20px;">
+                En <strong>Adrivo R.</strong> nos apasiona ofrecerte productos que resalten tu esencia. Desde el maquillaje más vibrante hasta accesorios que marcan tendencia, nuestra misión es traerte calidad y variedad a precios increíbles.
+            </p>
+            <p style="color: #666; line-height: 1.8; margin-bottom: 30px;">
+                Comenzamos con un sueño pequeño y hoy somos una comunidad que crece día a día gracias a ti. Queremos que cada vez que abras un paquete nuestro, sientas la emoción de estrenar algo especial.
+            </p>
+            <a href="{% url 'home' %}" class="btn-black-minimal" style="display: inline-block; width: auto; padding: 12px 45px; border-radius: 50px;">
+                Ver Catálogo
+            </a>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 100px;">
+        <div style="background: white; padding: 30px; border-radius: 20px; text-align: center; border: 1px solid #f0f0f0;">
+            <div style="width: 60px; height: 60px; background: #fff0f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: #ff4b9a; font-size: 1.5rem;"><i class="fas fa-gem"></i></div>
+            <h4 style="font-weight: 700; margin-bottom: 10px; color: #333;">Calidad</h4>
+            <p style="color: #888; font-size: 0.9rem;">Seleccionamos cuidadosamente cada producto para asegurar que recibas solo lo mejor.</p>
+        </div>
+        <div style="background: white; padding: 30px; border-radius: 20px; text-align: center; border: 1px solid #f0f0f0;">
+            <div style="width: 60px; height: 60px; background: #f3e5f5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: #ba68c8; font-size: 1.5rem;"><i class="fas fa-tags"></i></div>
+            <h4 style="font-weight: 700; margin-bottom: 10px; color: #333;">Precios Justos</h4>
+            <p style="color: #888; font-size: 0.9rem;">Creemos que verte bien no tiene por qué costar una fortuna.</p>
+        </div>
+        <div style="background: white; padding: 30px; border-radius: 20px; text-align: center; border: 1px solid #f0f0f0;">
+            <div style="width: 60px; height: 60px; background: #e3f2fd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: #42a5f5; font-size: 1.5rem;"><i class="fas fa-truck-fast"></i></div>
+            <h4 style="font-weight: 700; margin-bottom: 10px; color: #333;">Envíos Seguros</h4>
+            <p style="color: #888; font-size: 0.9rem;">Llevamos tu pedido a la puerta de tu casa con rapidez y cuidado.</p>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-weight: 800; color: #333; font-size: 2.2rem;">¡Visítanos!</h2>
+        <p style="color: #666;">También contamos con local físico.</p>
+    </div>
+
+    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 60px; border: 1px solid #f0f0f0;">
+        <div style="display: flex; flex-wrap: wrap;">
+            
+            <div style="flex: 1; min-width: 350px; padding: 50px;">
+                <span style="background: #e3f2fd; color: #1976d2; padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">
+                    <i class="fas fa-map-marker-alt"></i> Punto Físico
+                </span>
+                
+                <h3 style="margin-top: 20px; color: #333; font-weight: 700; font-size: 1.5rem; margin-bottom: 20px;">Variedades Adrivo R. Santa Elena</h3>
+                
+                <div style="margin-bottom: 30px;">
+                    <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                        <div style="width: 40px; height: 40px; background: #fff0f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ff4b9a;"><i class="fas fa-home"></i></div>
+                        <div>
+                            <h5 style="margin: 0; color: #333; font-weight: 700;">Dirección</h5>
+                            <p style="margin: 0; color: #777; font-size: 0.95rem;">Calle Principal Chanduy y C.G-1<br>(Unidad de Educación Básica "Teodoro Wolf")</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <div style="width: 40px; height: 40px; background: #f3e5f5; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ba68c8;"><i class="far fa-clock"></i></div>
+                        <div>
+                            <h5 style="margin: 0; color: #333; font-weight: 700;">Horario</h5>
+                            <p style="margin: 0; color: #777; font-size: 0.95rem;">Lun - Sab: 11:00 AM - 7:30 PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="https://www.google.com/maps/place/2%C2%B013'19.6%22S+80%C2%B051'36.1%22W/@-2.221877,-80.8647011,16.25z/data=!4m4!3m3!8m2!3d-2.2221219!4d-80.8600214?hl=es&entry=ttu&g_ep=EgoyMDI2MDEyMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn-black-minimal" style="display: inline-block; width: auto; padding: 10px 25px; border-radius: 50px;">
+                    <i class="fas fa-map-marked-alt"></i> Ver Mapa
+                </a>
+            </div>
+
+            <div style="flex: 1; min-width: 350px; background: #eee; position: relative; min-height: 400px;">
+                <img src="{% static 'local_afuera.jpeg' %}" alt="Fachada del Local" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
+            </div>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-bottom: 60px;">
+        
+        <div style="background: linear-gradient(135deg, #25d366, #128c7e); padding: 40px; border-radius: 20px; color: white; text-align: center;">
+            <h3 style="font-weight: 700; margin-bottom: 10px;">¿Necesitas ayuda?</h3>
+            <p style="opacity: 0.9; margin-bottom: 25px;">Escríbenos para asesoría personalizada.</p>
+            <a href="https://wa.me/593996578334" target="_blank" style="background: white; color: #128c7e; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 10px;">
+                <i class="fab fa-whatsapp fa-lg"></i> Chatear
+            </a>
+        </div>
+
+        <div style="background: white; padding: 40px; border-radius: 20px; border: 1px solid #f0f0f0; text-align: center;">
+            <h3 style="color: #333; font-weight: 700; margin-bottom: 10px;">Síguenos</h3>
+            <p style="color: #888; margin-bottom: 25px;">Novedades y ofertas diarias.</p>
+            <div style="display: flex; justify-content: center; gap: 15px;">
+                <a href="https://www.instagram.com/variedades_adrivo?igsh=dmNsbXpiNHJ5eGF5" target="_blank" class="chat-btn btn-ig">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100072388337648" target="_blank" class="chat-btn btn-fb">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h4 style="color: #333; font-weight: 700; margin-bottom: 20px; text-align: center;">Un vistazo por dentro</h4>
+        <div style="border-radius: 20px; overflow: hidden; height: 250px;">
+            <img src="{% static 'local_adentro.jpeg' %}" style="width: 100%; height: 100%; object-fit: cover;" alt="Interior de la tienda">
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

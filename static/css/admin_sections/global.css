@@ -1,0 +1,469 @@
+/* ============================================================
+   GLOBAL: TEMA "NEON GLOW" (TODO VISIBLE Y BRILLANTE)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+:root {
+    /* --- PALETA FOSFORESCENTE --- */
+    --bg-dark: #0f172a;       /* Fondo oscuro profundo */
+    --neon-blue: #06b6d4;     /* Cian Eléctrico */
+    --neon-purple: #8b5cf6;   /* Violeta Brillante */
+    --neon-pink: #ec4899;     /* Rosa Neón */
+    
+    /* Degradados Vibrantes */
+    --grad-sidebar: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%);
+    --grad-btn-save: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+    --grad-btn-delete: linear-gradient(135deg, #be123c 0%, #f43f5e 100%);
+    
+    /* Efectos de Luz */
+    --glow-text: 0 0 10px rgba(6, 182, 212, 0.5);
+    --glow-box: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+body {
+    font-family: 'Outfit', sans-serif !important;
+    background-color: #f8fafc !important;
+    color: #1e293b !important;
+    margin: 0;
+}
+
+/* --- 1. BARRA LATERAL (TODO VISIBLE) --- */
+.main-sidebar {
+    background: var(--grad-sidebar) !important;
+    min-height: 100vh;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 5px 0 30px rgba(0,0,0,0.3);
+}
+
+.brand-link { 
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important; 
+    background: rgba(0,0,0,0.2); 
+}
+.brand-text { 
+    color: white !important; font-weight: 800; letter-spacing: 1px;
+    text-transform: uppercase;
+    /* Texto brillante */
+    text-shadow: 0 0 10px var(--neon-purple);
+}
+
+/* --- BOTONES DEL MENÚ (LISTA VERTICAL) --- */
+/* Quitamos cualquier estilo de árbol, todo plano y bonito */
+.nav-sidebar .nav-item .nav-link { 
+    color: #cbd5e1 !important; 
+    margin: 8px 12px; 
+    padding: 12px 15px !important;
+    border-radius: 8px !important; /* Cuadrado suavizado */
+    font-weight: 600; 
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent; /* Línea lista para brillar */
+    background: rgba(255,255,255,0.03); /* Fondo sutil */
+}
+
+/* HOVER: EFECTO NEÓN FOSFORESCENTE */
+.nav-sidebar .nav-item .nav-link:hover { 
+    background: rgba(255, 255, 255, 0.1) !important; 
+    color: white !important;
+    border-left-color: var(--neon-blue); /* Borde cian */
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.4); /* Resplandor */
+    padding-left: 20px !important; /* Movimiento */
+    transform: translateX(5px);
+}
+
+/* ACTIVO: SELECCIONADO */
+.nav-sidebar .nav-item .nav-link.active {
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue)) !important;
+    color: white !important;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.6); /* Mucho brillo */
+    border: none;
+}
+
+
+/* --- 2. TARJETAS GENERALES --- */
+.card, .module, fieldset.module {
+    background: white !important;
+    border: none !important; border-radius: 12px !important;
+    padding: 0 !important; margin-bottom: 30px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* Sombra flotante */
+    overflow: hidden;
+}
+
+/* ENCABEZADOS (AZUL PROFUNDO + LÍNEA NEÓN) */
+.card-header, .module h2 {
+    background: #1e1b4b !important; /* Azul muy oscuro */
+    color: white !important;
+    font-weight: 800; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;
+    padding: 20px 30px !important; margin: 0 !important; border: none !important;
+    position: relative;
+}
+/* Línea inferior multicolor brillante */
+.card-header::after, .module h2::after {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 4px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue), var(--neon-pink));
+}
+
+
+/* --- 3. INPUTS Y FILAS --- */
+fieldset .form-row { 
+    padding: 25px 30px !important; border-bottom: 1px solid #f1f5f9; 
+    display: flex; align-items: center; flex-wrap: wrap; gap: 20px; background: white;
+}
+fieldset .form-row label {
+    font-weight: 800 !important; color: #1e1b4b !important;
+    text-transform: uppercase; font-size: 0.85rem; width: 200px;
+}
+input[type="text"], input[type="number"], select, textarea {
+    background: #f8fafc !important; border: 2px solid #e2e8f0 !important;
+    border-radius: 6px !important; padding: 12px 15px !important; min-height: 48px;
+    color: #0f172a; font-weight: 700; flex: 1; transition: 0.3s;
+}
+/* Focus brillante */
+input:focus, select:focus, textarea:focus {
+    border-color: var(--neon-purple) !important; background: white !important; outline: none;
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2) !important;
+}
+
+
+/* --- 4. BOTONES (GRANDES Y BRILLANTES) --- */
+.submit-row {
+    background: white !important; border-radius: 12px; padding: 25px; margin: 40px 0;
+    display: flex; justify-content: flex-end; gap: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+input[type="submit"], .object-tools a.addlink, .historylink, .deletelink {
+    border: none !important; border-radius: 6px !important; /* Cuadrados */
+    color: white !important; font-weight: 800 !important; text-transform: uppercase; 
+    font-size: 0.85rem !important; height: 50px !important; padding: 0 40px !important;
+    cursor: pointer; display: inline-flex !important; align-items: center !important; justify-content: center !important;
+    min-width: 150px; text-decoration: none !important; margin: 0 !important;
+    transition: 0.3s;
+}
+
+/* Guardar: Degradado Azul/Cian */
+input[type="submit"], .object-tools a.addlink { 
+    background: var(--grad-btn-save) !important; 
+    box-shadow: 0 5px 15px rgba(6, 182, 212, 0.4);
+}
+
+/* Eliminar: Degradado Rosa/Rojo */
+.deletelink { 
+    background: var(--grad-btn-delete) !important; 
+    box-shadow: 0 5px 15px rgba(244, 63, 94, 0.4);
+}
+
+/* Histórico: Violeta Oscuro */
+.historylink { 
+    background: #4c1d95 !important; font-size: 0 !important; 
+    box-shadow: 0 5px 15px rgba(76, 29, 149, 0.4);
+}
+.historylink::after { content: 'HISTORIAL'; font-size: 0.85rem !important; visibility: visible; }
+
+/* Hover: Se iluminan más */
+input[type="submit"]:hover, .deletelink:hover, .historylink:hover {
+    transform: translateY(-3px); filter: brightness(1.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+}
+
+/* ============================================================
+   DASHBOARD / PANEL PRINCIPAL ("NEON GLOW")
+   ============================================================ */
+
+/* --- 1. BANNER DE BIENVENIDA (HERO) --- */
+.dashboard-hero {
+    background: linear-gradient(135deg, #4c1d95 0%, #2563eb 50%, #06b6d4 100%);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(76, 29, 149, 0.4);
+}
+
+/* Decoración de fondo del banner */
+.dashboard-hero::before {
+    content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px;
+    background: rgba(255, 255, 255, 0.1); border-radius: 50%;
+    filter: blur(50px);
+}
+.hero-content h1 {
+    font-size: 2.5rem; font-weight: 800; margin: 0 0 10px 0;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.hero-content p { font-size: 1.1rem; opacity: 0.9; margin: 0; }
+.hero-date {
+    display: inline-block; background: rgba(255,255,255,0.2);
+    padding: 5px 15px; border-radius: 20px; font-size: 0.85rem;
+    margin-top: 15px; border: 1px solid rgba(255,255,255,0.3);
+}
+
+
+/* --- 2. TARJETAS DE ESTADÍSTICAS (KPIs) --- */
+.kpi-container {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px; margin-bottom: 40px;
+}
+
+.kpi-card {
+    background: white; border-radius: 16px;
+    padding: 25px; position: relative; overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    border: 1px solid #f1f5f9;
+}
+.kpi-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+
+/* Textos de la tarjeta */
+.kpi-value { font-size: 2.5rem; font-weight: 800; color: #1e1b4b; margin-bottom: 5px; display: block; }
+.kpi-label { font-size: 0.95rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+
+/* EMOJI DE FONDO GIGANTE */
+.kpi-icon-bg {
+    position: absolute; right: -10px; bottom: -10px;
+    font-size: 6rem; opacity: 0.1; /* Transparente para que sea sutil */
+    transform: rotate(-15deg); pointer-events: none;
+    filter: grayscale(0.2);
+}
+
+/* BOTÓN DE ATAJO RÁPIDO (+) */
+.kpi-action {
+    position: absolute; top: 15px; right: 15px;
+    width: 35px; height: 35px; border-radius: 50%;
+    background: #f0fdf4; color: #10b981; /* Verde por defecto */
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; font-size: 1.2rem; font-weight: bold;
+    transition: 0.2s;
+}
+.kpi-action:hover { background: #10b981; color: white; transform: scale(1.1); }
+
+
+/* --- 3. SECCIÓN GRÁFICAS Y LISTAS --- */
+.dashboard-grid {
+    display: grid; grid-template-columns: 2fr 1fr; /* Gráfica ancha, Historial angosto */
+    gap: 30px;
+}
+
+/* Contenedores blancos */
+.chart-box, .history-box {
+    background: white; border-radius: 16px; padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+.box-header {
+    font-size: 1.2rem; font-weight: 800; color: #1e1b4b; margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.box-header span { border-bottom: 3px solid #8b5cf6; padding-bottom: 5px; }
+
+
+/* --- 4. HISTORIAL DE ACCIONES (Limpio) --- */
+#content-related { float: none !important; width: 100% !important; margin: 0 !important; }
+#content-related .module { background: transparent !important; box-shadow: none !important; margin: 0 !important; }
+#content-related h2 { display: none; } /* Ocultamos el título feo de Django */
+
+.action-list { list-style: none; padding: 0; margin: 0; }
+.action-item {
+    display: flex; align-items: center; padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9; font-size: 0.9rem;
+}
+.action-item:last-child { border-bottom: none; }
+
+/* Icono del historial */
+.action-icon {
+    width: 35px; height: 35px; border-radius: 8px;
+    background: #f3e8ff; color: #8b5cf6;
+    display: flex; align-items: center; justify-content: center;
+    margin-right: 15px; font-size: 0.8rem;
+}
+.action-text { flex: 1; color: #334155; }
+.action-time { font-size: 0.75rem; color: #94a3b8; font-weight: 600; }
+
+/* Ajuste Responsivo */
+@media (max-width: 1024px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+/* ============================================================
+   ESTILOS PARA VARIACIONES (INLINE FORMS) - "NEON TABLE"
+   ============================================================ */
+
+/* 1. Contenedor Principal de las Variaciones */
+.inline-group {
+    background: white !important;
+    border-radius: 15px !important;
+    padding: 20px !important;
+    margin-top: 20px !important;
+    border: 1px solid #e0e5f2 !important;
+    box-shadow: 0 5px 20px rgba(112, 144, 176, 0.1);
+    overflow: hidden; /* Para que los bordes redondeados funcionen */
+}
+
+/* Título de la sección (ej: "Variaciones") */
+.inline-group h2 {
+    background: var(--sidebar-bg) !important; /* Azul oscuro */
+    color: white !important;
+    padding: 15px 20px !important;
+    border-radius: 10px !important;
+    font-size: 1rem !important;
+    text-transform: uppercase;
+    margin: -20px -20px 20px -20px !important; /* Pegarlo a los bordes */
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #111c44 0%, #1b2559 100%) !important;
+}
+
+/* 2. Forzar estructura de Tabla (tabular) */
+.tabular table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 10px !important; /* Espacio entre filas */
+}
+
+/* ENCABEZADOS DE LA TABLA (Lo que te faltaba) */
+.tabular thead th {
+    background: white !important;
+    color: #a3aed0 !important; /* Gris suave moderno */
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    font-size: 0.75rem !important;
+    padding: 10px 15px !important;
+    border: none !important;
+    border-bottom: 2px solid #f4f7fe !important;
+}
+
+/* Celdas del cuerpo */
+.tabular tbody tr {
+    background: #f8fafc !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tabular tbody tr:hover {
+    transform: scale(1.01);
+    box-shadow: 0 5px 15px rgba(68, 129, 235, 0.1);
+    z-index: 10;
+    background: white !important;
+}
+
+.tabular td {
+    padding: 15px !important;
+    border: none !important;
+    vertical-align: middle !important;
+}
+
+/* Borde redondeado para cada fila */
+.tabular tbody td:first-child { border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
+.tabular tbody td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+
+/* 3. Inputs dentro de la tabla (Color, Stock, etc.) */
+.tabular input[type="text"], 
+.tabular input[type="number"] {
+    width: 90% !important;
+    padding: 10px !important;
+    border-radius: 8px !important;
+    border: 1px solid #e2e8f0 !important;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.tabular input:focus {
+    border-color: #4318FF !important;
+    box-shadow: 0 0 0 3px rgba(67, 24, 255, 0.1) !important;
+}
+
+/* 4. Input de Archivo (Imagen) - ¡Más bonito! */
+.tabular input[type="file"] {
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+}
+
+/* 5. El Botón "Añadir otro" (La fila de abajo) */
+.tabular tr.add-row td {
+    background: transparent !important;
+    padding: 20px 0 !important;
+    text-align: right;
+}
+
+.tabular tr.add-row a {
+    background: var(--main-grad) !important;
+    color: white !important;
+    padding: 12px 25px !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    box-shadow: 0 4px 15px rgba(68, 129, 235, 0.4);
+    transition: 0.3s;
+}
+
+.tabular tr.add-row a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(68, 129, 235, 0.6);
+}
+
+/* Icono de eliminar (la X roja) */
+.inline-deletelink {
+    background: #ff5b5b !important;
+    color: white !important;
+    padding: 5px 10px !important;
+    border-radius: 5px !important;
+    text-decoration: none !important;
+    font-weight: bold;
+    font-size: 0.7rem !important;
+}
+
+/* ============================================================
+   CÓDIGO MÁGICO PARA CELULARES (RESPONSIVE)
+   ============================================================ */
+
+/* Esto se activa SOLO si la pantalla es menor a 768px (Tablets y Celulares) */
+@media (max-width: 768px) {
+    
+    /* 1. TODO EN UNA SOLA COLUMNA */
+    /* Hace que lo que estaba al lado, se ponga abajo */
+    .row, .d-flex, .flex-container, .pos-wrapper, .dashboard-wrapper {
+        flex-direction: column !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* 2. PANELES Y TARJETAS AL 100% DE ANCHO */
+    .col-md-3, .col-md-4, .col-md-6, .col-md-8, .col-md-9, 
+    .catalog-panel, .ticket-panel {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: none !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* 3. TABLAS CON DESPLAZAMIENTO (CRÍTICO) */
+    /* Evita que la tabla rompa el diseño, agrega scroll horizontal */
+    .table-responsive, table {
+        display: block;
+        width: 100%;
+        overflow-x: auto; 
+    }
+
+    /* 4. IMÁGENES QUE NO SE SALGAN */
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    /* 5. TEXTO Y BOTONES GRANDES PARA DEDOS */
+    body, p, span, a, li {
+        font-size: 16px !important; 
+    }
+    
+    button, .btn, .btn-action {
+        padding: 15px !important; /* Más fácil de tocar */
+        width: 100% !important; /* Botones de ancho completo */
+        margin-bottom: 10px;
+    }
+
+    /* 6. ARREGLO PARA JAZZMIN (ADMIN) */
+    /* Quita el margen izquierdo que deja espacio para el menú lateral */
+    .content-wrapper, .main-header, .main-sidebar {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}

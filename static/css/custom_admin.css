@@ -1,0 +1,8 @@
+/* ============================================================
+   ADRIVO R. - SISTEMA MODULAR DE ESTILOS
+   ============================================================ */
+
+@import url('admin_sections/global.css');
+@import url('admin_sections/users.css');
+@import url('admin_sections/products.css');
+@import url('admin_sections/orders.css');

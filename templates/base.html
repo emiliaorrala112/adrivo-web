@@ -1,0 +1,490 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Variedades Adrivo R. - Maquillaje y Accesorios en Santa Elena</title>
+    <meta name="description" content="Tienda online de Variedades Adrivo R. Encuentra maquillaje, moda y accesorios a los mejores precios. Tu estilo, tu universo.">
+    <meta name="keywords" content="adrivo, variedades adrivo, maquillaje ecuador, santa elena, accesorios">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adrivo R.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* ESTILOS GLOBALES */
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background-color: #fff0f5; background-image: radial-gradient(#ffcce0 2px, transparent 2px); background-size: 25px 25px; min-height: 100vh; display: flex; flex-direction: column; }
+        a { text-decoration: none; }
+
+        /* HEADER */
+        .sticky-header { position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(232, 62, 140, 0.15); }
+        .header-top { display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; width: 100%; max-width: 1800px; margin: 0 auto; gap: 20px; }
+        
+        .brand-badge { display: flex; align-items: center; gap: 10px; flex-shrink: 0; text-decoration: none; }
+        .brand-badge img { 
+            height: 60px; width: 60px; 
+            border-radius: 50%; 
+            border: 3px solid #ff4b9a; 
+            padding: 2px; 
+            object-fit: cover; 
+        }
+        .brand-badge span { font-family: 'Pacifico', cursive; font-size: 1.8rem; color: #ff4b9a; text-shadow: 1px 1px 0px #ffeebb; }
+
+        /* BUSCADOR */
+        .search-form { flex-grow: 1; max-width: 600px; position: relative; }
+        .search-input { width: 100%; padding: 10px 20px; border-radius: 50px; border: 2px solid #ffcce0; background: #fffbfd; outline: none; transition: 0.3s; color: #555; font-family: inherit; font-weight: 500; }
+        .search-input:focus { background: white; border-color: #ff4b9a; box-shadow: 0 0 0 4px rgba(255, 75, 154, 0.1); }
+        .search-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none; color: #ff4b9a; cursor: pointer; font-size: 1.1rem; }
+
+        /* HEADER ACTIONS */
+        .header-actions { display: flex; align-items: center; gap: 15px; flex-shrink: 0; }
+        
+        /* ESTILOS DE BOTONES DIFERENCIADOS */
+        .btn-login-outline { 
+            color: #ff4b9a; font-weight: 700; border: 2px solid #ff4b9a; 
+            padding: 8px 20px; border-radius: 50px; font-size: 0.9rem; transition:0.3s; 
+            background: white; 
+        }
+        .btn-login-outline:hover { background: #fff0f6; transform: translateY(-2px); }
+
+        .btn-register-fill { 
+            background: linear-gradient(45deg, #ff4b9a, #ba68c8);
+            color: white; font-weight: 700; border: none; 
+            padding: 10px 25px; border-radius: 50px; font-size: 0.9rem; transition:0.3s; 
+            box-shadow: 0 4px 10px rgba(232, 62, 140, 0.3);
+        }
+        .btn-register-fill:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(232, 62, 140, 0.4); color: white; }
+
+        .icon-btn { position: relative; color: #555; font-size: 1.4rem; transition: 0.3s; margin-left: 8px; display: flex; align-items: center; text-decoration: none; }
+        .icon-btn:hover { color: #ff4b9a; transform: scale(1.1); }
+        .count-pill { position: absolute; top: -5px; right: -8px; background: #ff4b9a; color: white; font-size: 0.75rem; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+        /* MENU */
+        .nav-categories { background: linear-gradient(90deg, #FEC288, #FF7DB0); display: flex; justify-content: center; position: relative; box-shadow: 0 4px 10px rgba(255, 75, 154, 0.2); }
+        .nav-item { position: relative; }
+        .nav-link-cat { 
+    display: block; 
+    color: #ffffff; /* Letra blanca pura para máximo contraste */
+    font-weight: 600; /* Un poco más fino para elegancia */
+    font-size: 0.8rem; 
+    padding: 10px 20px; /* El tamaño delgado que te gustó */
+    transition: 0.3s; 
+    text-transform: uppercase; 
+    text-decoration: none; 
+    letter-spacing: 1px; /* Un poquito de espacio entre letras */
+}
+        .nav-link-cat:hover { background: rgba(255,255,255,0.2); color: white; }
+        
+        .mega-menu { display: none; position: absolute; top: 100%; left: 0; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-top: 4px solid #ffd54f; z-index: 1000; padding: 20px; border-radius: 0 0 15px 15px; min-width: 250px; flex-direction: row; gap: 30px; flex-wrap: wrap; }
+        .nav-item:hover .mega-menu { display: flex; }
+        .mm-column { min-width: 140px; }
+        .mm-title { color: #ff4b9a; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; border-bottom: 2px solid #ffe4f0; padding-bottom: 5px; display: block; }
+        .mm-link { display: block; text-decoration: none; color: #666; font-size: 0.85rem; margin-bottom: 5px; transition: 0.2s; font-weight: 500; }
+        .mm-link:hover { color: #ba68c8; transform: translateX(5px); font-weight: 700; }
+
+        /* --- ESTILOS DE ADRIVITO (ASISTENTE) --- */
+        .adrivito-container {
+            position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+            display: flex; flex-direction: column; align-items: flex-end;
+        }
+
+        /* Avatar (El Botón Redondo) */
+        .adrivito-avatar {
+            width: 75px; height: 75px;
+            border-radius: 50%;
+            border: 3px solid #ff4b9a;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background-color: white; 
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .adrivito-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .adrivito-avatar:hover { transform: scale(1.1) rotate(-5deg); }
+
+        /* Mensaje Hover (Globo) */
+        .adrivito-tooltip {
+            background: white; padding: 12px 15px; border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: 0.9rem; color: #555; margin-bottom: 15px;
+            position: absolute; bottom: 85px; right: 0; width: 220px;
+            opacity: 0; visibility: hidden; transition: 0.3s;
+            pointer-events: none; border: 1px solid #ffe0eb;
+        }
+        .adrivito-tooltip::after {
+            content: ''; position: absolute; bottom: -8px; right: 28px;
+            border-width: 8px 8px 0; border-style: solid;
+            border-color: white transparent transparent transparent;
+        }
+        
+        .adrivito-container:not(.active):hover .adrivito-tooltip { 
+            opacity: 1; visibility: visible; transform: translateY(-5px); 
+        }
+        .adrivito-container.active .adrivito-tooltip {
+            display: none !important; opacity: 0 !important;
+        }
+
+        /* Chat (Ventana) */
+        .adrivito-chat {
+            background: white; width: 300px; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2); overflow: hidden;
+            margin-bottom: 15px; display: none; border: 2px solid #ff4b9a;
+            animation: popUp 0.3s ease-out;
+        }
+        @keyframes popUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .chat-header { background: linear-gradient(45deg, #ff4b9a, #ba68c8); padding: 15px; color: white; display: flex; align-items: center; gap: 10px; }
+        .chat-body { padding: 20px; text-align: center; }
+        .chat-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px; border-radius: 50px; margin-bottom: 10px; text-decoration: none; font-weight: 600; transition: 0.3s; font-size: 0.95rem; }
+        .btn-wsp { background: #e7fceb; color: #25d366; border: 1px solid #25d366; }
+        .btn-wsp:hover { background: #25d366; color: white; }
+        .btn-ig { background: #fff0f6; color: #e1306c; border: 1px solid #e1306c; }
+        .btn-ig:hover { background: #e1306c; color: white; }
+        .btn-fb { background: #eaf4ff; color: #1877f2; border: 1px solid #1877f2; }
+        .btn-fb:hover { background: #1877f2; color: white; }
+        .close-chat { position: absolute; top: 15px; right: 15px; background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; }
+
+        /* FOOTER */
+        .site-footer { background: white; border-top: 2px solid #fff0f6; padding: 30px; text-align: center; color: #999; font-size: 0.9rem; margin-top: auto; font-weight: 600; }
+
+        /* --- CÓDIGO (RESPONSIVE) --- */
+    @media (max-width: 900px) {
+        
+        /* 1. ENCABEZADO ORDENADO */
+        .header-top {
+            flex-direction: column !important;
+            padding: 15px !important;
+            gap: 15px;
+        }
+        
+        /* 2. BUSCADOR AL 100% (Para que se vea bien y grande) */
+        .search-form {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 5px 0;
+        }
+        
+        /* 3. ICONOS (Favoritos, Carrito, Login) CENTRADOS */
+        .header-actions {
+            width: 100%;
+            justify-content: space-around; /* Distribuye el espacio */
+            gap: 10px;
+        }
+        
+        /* 4. MENÚ DE CATEGORÍAS TIPO APP (Deslizable con el dedo) */
+        /* Esto evita el desorden de muchas letras amontonadas */
+        .nav-categories {
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important; /* Scroll horizontal */
+            justify-content: flex-start !important;
+            padding: 0 10px !important;
+            -webkit-overflow-scrolling: touch; /* Suavidad en iPhone */
+        }
+        .nav-item {
+            flex-shrink: 0; /* Que no se aplasten los botones */
+        }
+        .nav-link-cat {
+            font-size: 0.75rem;
+            padding: 12px 15px;
+            white-space: nowrap; /* Texto en una sola línea */
+        }
+
+        /* 5. ARREGLO DEL "PANEL DE CONTROL" (MENÚ AZUL) */
+        /* Esto es lo que arregla que todo se vea feo y aplastado */
+        /* Obliga a que el panel y el contenido se pongan uno debajo del otro */
+        body, .d-flex, .wrapper, .main-container {
+            display: block !important; 
+        }
+
+        /* Si el panel azul usa alguna de estas clases comunes, se arreglará: */
+        .sidebar, .nav-sidebar, #sidebar-wrapper, .border-end {
+            width: 100% !important;
+            height: auto !important;
+            position: relative !important;
+            min-height: auto !important;
+            margin-bottom: 20px;
+            display: block !important; /* Asegura que se vea */
+        }
+
+        /* 6. BOTÓN FLOTANTE (ADRIVITO) */
+        .adrivito-avatar { width: 55px; height: 55px; }
+        .adrivito-container { bottom: 15px; right: 15px; }
+    }
+    </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages %}  <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3500,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                },
+                customClass: { popup: 'adrivo-toast' }
+            });
+
+            {% for message in messages %}
+                Toast.fire({
+                    icon: "{% if message.tags == 'error' %}error{% elif message.tags == 'warning' %}warning{% else %}success{% endif %}",
+                    title: "{{ message }}"
+                });
+            {% endfor %}
+        });
+    </script>
+
+    <style>
+        .adrivo-toast {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 0.95rem !important;
+            border-left: 6px solid #ba68c8 !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+        }
+        .swal2-timer-progress-bar { background: #ff4b9a !important; }
+    </style>
+{% endif %}
+    <header class="sticky-header">
+        <div class="header-top">
+            <a href="/" class="brand-badge">
+                <img src="{% static 'logo_adrivo.jpg' %}" alt="Logo">
+                <span>Adrivo R.</span>
+            </a>
+            
+            <form action="{% url 'home' %}" method="get" class="search-form">
+                <div style="position:relative;">
+                    <input type="text" name="q" placeholder="Buscar en el universo..." class="search-input" value="{{ request.GET.q|default:'' }}">
+                    <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+
+            <div class="header-actions">
+    
+    <a href="{% url 'nosotros' %}" title="Sobre Nosotros" style=">
+        text-decoration: none; color: #272528; font-weight: 700; font-size: 0.95rem; margin-right: 15px; 
+        display: flex; align-items: center; gap: 5px; transition: 0.3s;"
+        onmouseover="this.style.color='#ff4b9a'" onmouseout="this.style.color='#ba68c8'">
+        <i class="fas fa-users"></i> Nosotros
+    </a>
+
+    <a href="{% url 'favoritos' %}" class="icon-btn" title="Mis Favoritos" style="margin-right: 15px; position: relative; display: flex; align-items: center;">
+    <i class="far fa-heart" style="color: #ff4b9a;"></i>
+    
+    {% if cantidad_favoritos > 0 %}
+    <span style="
+        position: absolute; 
+        top: -5px; 
+        right: -8px; 
+        background: #ff4b9a; 
+        color: white; 
+        font-size: 0.75rem; 
+        width: 18px; 
+        height: 18px; 
+        border-radius: 50%; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-weight: bold; 
+        border: 2px solid white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        {{ cantidad_favoritos }}
+    </span>
+    {% endif %}
+</a>
+
+    {% if user.is_authenticated %}
+        <span style="font-weight:600; color:#ba68c8; font-size:0.9rem;">Hola, {{ user.username }}</span>
+        
+        {% if user.is_staff %}
+            <a href="/admin/" class="icon-btn" title="Panel Admin"><i class="fas fa-cogs"></i></a>
+        {% endif %}
+        
+        <form action="{% url 'logout' %}" method="post" style="display:inline">
+            {% csrf_token %}
+            <button style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:#666; margin-left:5px;" title="Cerrar sesión"><i class="fas fa-sign-out-alt"></i></button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}" class="btn-login-outline">Iniciar Sesión</a>
+        <a href="{% url 'registro' %}" class="btn-register-fill">Registrarse</a>
+    {% endif %}
+
+</div>
+                
+    <a href="{% url 'carrito' %}" class="icon-btn" title="Ver Carrito" style="
+    margin-left: 20px; 
+    text-decoration: none; 
+    position: relative;
+    display: flex;
+    align-items: center;">
+    
+    <i class="fas fa-shopping-bag" style="font-size: 1.8rem;"></i>
+    
+    {% if cantidad_carrito > 0 %}
+    <span style="
+        position: absolute; 
+        top: -5px; 
+        right: -8px; 
+        background: #ff4b9a; 
+        color: white; 
+        font-size: 0.75rem; 
+        width: 22px; 
+        height: 22px; 
+        border-radius: 50%; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-weight: bold; 
+        border: 2px solid white; 
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+        {{ cantidad_carrito }}
+    </span>
+    {% endif %}
+</a>
+                
+            </div>
+        </div>
+
+        <nav class="nav-categories">
+            <div class="nav-item"><a href="/" class="nav-link-cat">INICIO</a></div>
+            {% if categorias %}
+                {% for cat in categorias %}
+                <div class="nav-item">
+                    <a href="{% url 'home' %}?categoria={{ cat.id }}" class="nav-link-cat">
+                        {{ cat.nombre|upper }} 
+                        {% if cat.subcategorias.all %}<i class="fas fa-chevron-down" style="font-size:0.7em; margin-left:5px;"></i>{% endif %}
+                    </a>
+                    {% if cat.subcategorias.all %}
+                    <div class="mega-menu">
+                        {% for sub in cat.subcategorias.all %}
+                        <div class="mm-column">
+                            <span class="mm-title">{{ sub.nombre }}</span>
+                            {% for tipo in sub.tipos.all %}
+                                <a href="{% url 'home' %}?tipo={{ tipo.id }}" class="mm-link">{{ tipo.nombre }}</a>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% endif %}
+        </nav>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+
+    <div class="adrivito-container" id="adrivitoContainer">
+        <div class="adrivito-tooltip">
+            ¡Hola! Soy <strong>Adrivito</strong> 👋 <br>¿Necesitas ayuda con tu pedido? ¡Contáctanos!
+        </div>
+
+        <div class="adrivito-chat" id="chatBox">
+            <div class="chat-header">
+                <div style="background:white; border-radius:50%; padding:2px; display:flex;">
+                    <img src="{% static 'adrivito.jpg' %}" style="width:30px; height:30px; object-fit:contain;">
+                </div>
+                <div>
+                    <h4 style="margin:0; font-size:1rem;">Adrivito Bot </h4>
+                </div>
+                <button class="close-chat" onclick="toggleChat()">&times;</button>
+            </div>
+            <div class="chat-body">
+                <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">
+                    ¡Hola! Estoy aquí para ayudarte con tus compras. Elige una opción para contactarnos:
+                </p>
+                
+                <a href="https://wa.me/593996578334" target="_blank" class="chat-btn btn-wsp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="https://www.instagram.com/variedades_adrivo?igsh=dmNsbXpiNHJ5eGF5" target="_blank" class="chat-btn btn-ig">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100072388337648" target="_blank" class="chat-btn btn-fb">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+            </div>
+        </div>
+
+        <div class="adrivito-avatar" onclick="toggleChat()">
+            <img src="{% static 'adrivito.jpg' %}" alt="Asistente">
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        © 2026 Variedades Adrivo R. - Hecho con  <i class="fas fa-heart" style="color:#ff4b9a "></i>
+         <p>✿ Santa Elena - Ecuador  ✿</p>
+    </footer>
+
+    <script>
+        // Lógica chat
+        function toggleChat() {
+            var chat = document.getElementById('chatBox');
+            var container = document.getElementById('adrivitoContainer');
+
+            if (chat.style.display === 'none' || chat.style.display === '') {
+                chat.style.display = 'block';
+                container.classList.add('active'); // Oculta el globo
+            } else {
+                chat.style.display = 'none';
+                container.classList.remove('active'); // Muestra el globo
+            }
+        }
+
+        // Auto-cierre notificaciones
+        setTimeout(() => { 
+            document.querySelectorAll('.notification-toast').forEach(e => e.remove()); 
+        }, 4000);
+    </script>
+    <script>
+    // Función para manejar el clic en el corazón
+    function toggleFav(btn, productoId) {
+        // 1. Verificamos si el usuario está logueado (Django template tag)
+        var userAuthenticated = "{{ user.is_authenticated|yesno:'true,false' }}";
+
+        if (userAuthenticated === 'false') {
+            alert("Debes iniciar sesión para guardar favoritos 💖");
+            window.location.href = "{% url 'login' %}";
+            return;
+        }
+
+        // 2. Hacemos la petición al servidor (AJAX)
+        fetch(`/favoritos/toggle/${productoId}/`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 3. Cambiamos el color del corazón según la respuesta
+            let icon = btn.querySelector('i');
+            if (data.es_favorito) {
+                icon.classList.remove('far'); // Corazón vacío
+                icon.classList.add('fas');    // Corazón lleno
+                icon.style.color = '#ff4b9a'; // Rosado
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                icon.style.color = '#ccc';    // Gris
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</body>
+</html>

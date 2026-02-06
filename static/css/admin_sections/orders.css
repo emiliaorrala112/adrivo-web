@@ -1,0 +1,154 @@
+/* ============================================================
+   DISEÑO PEDIDOS - V16 (TODO EN UNA SOLA FILA ORDENADA)
+   ============================================================ */
+
+/* 1. CONTENEDOR */
+.model-pedido .inline-group {
+    background: white !important;
+    padding: 15px !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
+    box-shadow: none !important;
+}
+
+/* 2. TABLA */
+.model-pedido .tabular table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important; /* Mantiene las columnas firmes */
+}
+
+/* 3. ENCABEZADOS */
+.model-pedido .tabular thead th {
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    font-weight: 800 !important;
+    padding: 10px 5px !important;
+    text-transform: uppercase;
+    font-size: 0.7rem !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    text-align: center !important;
+}
+
+/* 4. ANCHOS DE COLUMNAS (Aumentamos PRODUCTO para que quepa todo) */
+/* Producto: 50% (La mitad de la tabla para que entren los iconos en fila) */
+.model-pedido .tabular th.column-producto, 
+.model-pedido .tabular td.field-producto { width: 50% !important; }
+
+/* Reducimos un poquito los otros para compensar */
+.model-pedido .tabular th.column-cantidad, 
+.model-pedido .tabular td.field-cantidad { width: 10% !important; }
+
+.model-pedido .tabular th.column-precio_unitario, 
+.model-pedido .tabular td.field-precio_unitario { width: 12% !important; }
+
+.model-pedido .tabular th.column-subtotal_visual, 
+.model-pedido .tabular td.field-subtotal_visual { width: 12% !important; }
+
+.model-pedido .tabular th.column-DELETE, 
+.model-pedido .tabular td.delete { width: 16% !important; text-align: center !important; }
+
+
+/* 5. CELDAS */
+.model-pedido .tabular tbody td {
+    padding: 8px 5px !important;
+    vertical-align: middle !important; /* Centrado vertical */
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+/* 6. INPUTS */
+.model-pedido .tabular td input[type="number"], 
+.model-pedido .tabular td input[type="text"] {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    height: 35px !important;
+    padding: 0 5px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    font-size: 0.85rem !important;
+    text-align: center !important;
+}
+
+/* ============================================================
+   7. COLUMNA PRODUCTO (TODO EN UNA FILA)
+   ============================================================ */
+.model-pedido .tabular td.field-producto .related-widget-wrapper {
+    display: flex !important;
+    flex-wrap: nowrap !important; /* PROHIBIDO SALTAR DE LÍNEA */
+    align-items: center !important; /* Alineados al centro verticalmente */
+    width: 100% !important;
+}
+
+/* EL MENÚ: Ocupa todo el espacio disponible */
+.model-pedido .tabular td.field-producto .related-widget-wrapper > select {
+    flex: 1 !important; /* Crece para llenar el hueco */
+    width: auto !important;
+    min-width: 0 !important; /* Evita que empuje a los iconos fuera */
+    height: 35px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 5px !important;
+    margin-right: 5px !important; /* Espacio antes de los iconos */
+}
+
+/* LOS ÍCONOS: Se quedan a la derecha, uno tras otro */
+.model-pedido .tabular td.field-producto .related-widget-wrapper > a {
+    flex-shrink: 0 !important; /* No permitimos que se aplasten */
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 20px !important; /* Tamaño fijo */
+    height: 20px !important;
+    font-size: 1rem !important;
+    color: #64748b !important;
+    text-decoration: none !important;
+    margin: 0 2px !important; /* Separación entre ellos */
+    transition: 0.2s;
+}
+
+.model-pedido .tabular td.field-producto .related-widget-wrapper > a:hover {
+    color: #3b82f6 !important;
+    transform: scale(1.2);
+}
+
+/* Icono (+) en verde */
+.model-pedido .tabular td.field-producto .related-widget-wrapper > a.add-related {
+    color: #22c55e !important;
+}
+
+
+/* ============================================================
+   8. BOTONES ELIMINAR (ROJOS E IDÉNTICOS)
+   ============================================================ */
+.model-pedido .tabular td.delete a.inline-deletelink,
+.model-pedido .tabular td.delete input[type="checkbox"] {
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 100% !important;
+    max-width: 90px !important;
+    height: 30px !important;
+    background-color: #ef4444 !important; /* Rojo */
+    color: white !important;
+    border-radius: 4px !important;
+    border: none !important;
+    text-decoration: none !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    cursor: pointer !important;
+    margin: 0 auto !important;
+}
+
+.model-pedido .tabular td.delete a.inline-deletelink:hover,
+.model-pedido .tabular td.delete input[type="checkbox"]:hover {
+    background-color: #dc2626 !important;
+}
+
+/* Checkbox Trick */
+.model-pedido .tabular td.delete input[type="checkbox"] { appearance: none !important; -webkit-appearance: none !important; position: relative; }
+.model-pedido .tabular td.delete input[type="checkbox"]::after { content: "ELIMINAR"; color: white; }
+.model-pedido .tabular td.delete input[type="checkbox"]:checked { background-color: #333 !important; }
+.model-pedido .tabular td.delete input[type="checkbox"]:checked::after { content: "BORRARÁ"; }

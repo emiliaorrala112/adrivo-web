@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Nos vemos! - Adrivo R.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0); 
+            height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logout-card {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(232, 62, 140, 0.2);
+            text-align: center;
+            max-width: 400px;
+            border: 3px solid #fff0f6;
+            animation: fadeIn 0.8s ease;
+        }
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: #880e4f;
+            font-size: 2.2rem;
+            margin: 10px 0;
+        }
+        p { color: #666; font-size: 1rem; margin-bottom: 30px; }
+        
+        .btn-home {
+            background: linear-gradient(45deg, #e83e8c, #ba68c8);
+            color: white;
+            text-decoration: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(232, 62, 140, 0.3);
+        }
+        .btn-home:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(232, 62, 140, 0.5); }
+        
+        .icon-bye { font-size: 4rem; color: #f48fb1; margin-bottom: 15px; display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logout-card">
+        <i class="fas fa-hand-sparkles icon-bye"></i>
+        <h1>¡Hasta pronto!</h1>
+        <p>Gracias por visitar el Universo Adrivo.<br>¡Vuelve pronto por más magia! ✨</p>
+        
+        <a href="/" class="btn-home">Volver a la Tienda</a>
+        
+        <div style="margin-top: 25px;">
+            <a href="{% url 'login' %}" style="color: #ba68c8; text-decoration: none; font-size: 0.85rem; font-weight: 500;">
+                ¿Olvidaste comprar algo? <span style="text-decoration: underline;">Inicia sesión</span>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

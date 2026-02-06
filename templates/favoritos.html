@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* --- ARREGLO FINAL FAVORITOS: ENCABEZADO FIJO + GRILLA --- */
+    @media (max-width: 900px) {
+
+        /* 1. CONTENEDOR PRINCIPAL DEL ENCABEZADO */
+        .header-top {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            align-items: center !important;
+            padding: 10px 10px 5px 10px !important;
+            position: relative !important; /* Necesario para el truco */
+            min-height: 50px !important;
+        }
+
+        /* 2. EL LOGO (Izquierda) */
+        .brand-badge {
+            order: 1;
+            width: auto !important;
+            max-width: 60% !important;
+            margin-right: auto !important;
+            display: flex; align-items: center;
+        }
+        .brand-badge img { width: 35px; height: 35px; }
+        .brand-badge span { font-size: 1.1rem !important; margin-left: 5px; white-space: nowrap; }
+
+        /* 3. LOS ICONOS (TRUCO: CLAVADOS A LA DERECHA) */
+        
+        /* Grupo de Iconos (Corazón, Tuerca) */
+        .header-actions {
+            position: absolute !important; /* Flotan sobre todo */
+            top: 15px !important;          /* Alineados arriba */
+            right: 50px !important;        /* Dejan espacio para la bolsa */
+            margin: 0 !important; padding: 0 !important;
+            width: auto !important;
+            background: transparent !important;
+            gap: 5px !important;
+            display: flex !important;
+        }
+
+        /* La Bolsa de Carrito (En la pura esquina) */
+        a[title="Ver Carrito"], .header-top > a.icon-btn[href*="carrito"] {
+            position: absolute !important;
+            top: 15px !important;
+            right: 10px !important; /* Pegado al borde derecho */
+            margin: 0 !important;
+            display: flex !important;
+        }
+
+        /* 4. BUSCADOR (Abajo) */
+        .search-form {
+            order: 3;
+            width: 100% !important;
+            margin-top: 15px !important;
+            flex: 0 0 100% !important;
+        }
+
+        /* Tamaños pequeños */
+        .icon-btn, .header-actions i, a[title="Ver Carrito"] i { font-size: 1.2rem !important; color: #555 !important; }
+        .header-actions span, .header-actions a[title="Sobre Nosotros"] { display: none !important; }
+
+
+        /* 5. FAVORITOS EN 2 COLUMNAS (Parejitas) */
+        /* Buscamos el grid y lo forzamos */
+        div[style*="grid-template-columns"] {
+            grid-template-columns: repeat(2, 1fr) !important; 
+            gap: 10px !important;
+        }
+        
+        /* Ajustar contenedor */
+        .container-fluid { padding: 15px 10px !important; }
+        h2 { font-size: 1.5rem !important; margin-top: 10px; }
+
+        /* Tarjetas pequeñas */
+        .product-card img, div[style*="height: 220px"] {
+            height: 130px !important; 
+            padding: 10px !important;
+        }
+        .product-card h5 { font-size: 0.85rem !important; height: 35px !important; margin-bottom: 5px !important; }
+        .product-card div[style*="font-size: 1.2rem"] { font-size: 1rem !important; margin-bottom: 10px !important; }
+        .product-card a[style*="background: #333"] { padding: 8px !important; font-size: 0.8rem !important; }
+        
+        /* Botón cerrar (X) más pequeño */
+        button[onclick*="toggleFav"] { width: 28px !important; height: 28px !important; top: 5px !important; right: 5px !important; }
+        
+        body, html { overflow-x: hidden !important; width: 100% !important; }
+    }
+</style>
+<div class="container-fluid" style="padding: 60px 8%; min-height: 60vh;">
+    
+    <div style="border-bottom: 1px solid #eee; margin-bottom: 40px; padding-bottom: 15px;">
+        <h2 style="color: #333; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 2rem; margin: 0;">
+            Mis Favoritos
+        </h2>
+        <p style="color: #777; margin-top: 5px;">Tus productos guardados</p>
+    </div>
+
+    {% if favoritos %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 40px;">
+            {% for fav in favoritos %}
+            <div class="product-card" style="
+                background: white; 
+                border-radius: 15px; 
+                border: 1px solid #f0f0f0; 
+                overflow: hidden; 
+                position: relative;
+                transition: transform 0.3s, box-shadow 0.3s;">
+                
+                <button onclick="toggleFav(this, {{ fav.producto.id }}); this.closest('.product-card').remove();" 
+                        style="position: absolute; top: 10px; right: 10px; z-index: 10; background: white; border-radius: 50%; width: 32px; height: 32px; border: 1px solid #eee; cursor: pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;"
+                        onmouseover="this.style.background='#ffebee'; this.style.borderColor='#ffcdd2'"
+                        onmouseout="this.style.background='white'; this.style.borderColor='#eee'">
+                    <i class="fas fa-times" style="color: #ff4b9a; font-size: 0.9rem;"></i>
+                </button>
+
+                <a href="{% url 'detalle_producto' fav.producto.id %}" style="display: block; background: #fff;">
+                    {% if fav.producto.imagen %}
+                        <img src="{{ fav.producto.imagen.url }}" style="width: 100%; height: 220px; object-fit: contain; padding: 20px;">
+                    {% else %}
+                        <div style="height: 220px; background: #f9f9f9; display: flex; align-items: center; justify-content: center; color: #ddd;"><i class="fas fa-camera fa-2x"></i></div>
+                    {% endif %}
+                </a>
+
+                <div style="padding: 20px; text-align: center;">
+                    <h5 style="font-size: 1rem; font-weight: 600; color: #333; margin-bottom: 10px; height: 40px; overflow: hidden; line-height: 1.3;">{{ fav.producto.nombre }}</h5>
+                    <div style="color: #333; font-weight: 800; font-size: 1.2rem; margin-bottom: 15px;">${{ fav.producto.precio }}</div>
+                    
+                    <a href="{% url 'detalle_producto' fav.producto.id %}" style="
+                        display: block; 
+                        width: 100%; 
+                        padding: 10px; 
+                        background: #333; 
+                        color: white; 
+                        text-decoration: none; 
+                        border-radius: 8px; 
+                        font-weight: 600; 
+                        font-size: 0.9rem;
+                        transition: 0.3s;"
+                        onmouseover="this.style.background='#ff4b9a'"
+                        onmouseout="this.style.background='#333'">
+                        Ver Producto
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 80px 20px;">
+            <i class="far fa-folder-open fa-4x" style="color: #ddd; margin-bottom: 20px;"></i>
+            <h3 style="color: #555; font-weight: 600;">Tu lista de deseos está vacía.</h3>
+            <p style="color: #999;">Explora el catálogo y guarda lo que te guste.</p>
+            <a href="{% url 'home' %}" style="margin-top: 25px; display: inline-block; padding: 12px 30px; background: #333; color: white; border-radius: 50px; text-decoration: none; font-weight: 600;">Ir a la Tienda</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

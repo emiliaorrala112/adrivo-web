@@ -1,0 +1,172 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block branding %}
+    <div id="branding-header" style="background: #1a202c; padding: 10px; text-align: center; border-bottom: 1px solid #2d3748; position: relative; z-index: 2000;">
+        <h1 id="site-name" style="margin: 0;">
+            <a href="{% url 'admin:index' %}" style="color: #f5dd5d; text-decoration: none; font-weight: 800; font-size: 1.1rem; letter-spacing: 0.5px;">
+                PANEL ADRIVO
+            </a>
+        </h1>
+    </div>
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* CSS SOLO PARA MÓVIL */
+        @media (max-width: 900px) {
+            
+            /* 1. RESETEO DE PANTALLA */
+            body, html, #container, .content { width: 100% !important; margin: 0 !important; padding: 0 !important; overflow-x: hidden !important; }
+
+            /* 2. BARRA DE NAVEGACIÓN SUPERIOR BLANCA */
+            .barra-nav-movil {
+                display: flex !important; align-items: center; background: #ffffff;
+                border-bottom: 1px solid #eef0f2; padding: 10px 15px; height: 75px;
+                position: sticky; top: 0; z-index: 2000; gap: 10px; overflow-x: auto; white-space: nowrap;
+            }
+
+            /* BOTÓN LILA (SIEMPRE VISIBLE) */
+            .btn-lila-menu {
+                width: 45px !important; height: 45px !important; min-width: 45px !important;
+                background: #ba68c8 !important; border: none; border-radius: 8px;
+                color: white; font-size: 1.4rem; cursor: pointer;
+                display: flex; align-items: center; justify-content: center;
+                box-shadow: 0 4px 6px rgba(186, 104, 200, 0.4);
+                z-index: 9999999 !important; position: relative;
+            }
+
+            /* ENLACES PASTILLA */
+            .link-gris {
+                color: #556070 !important; background: #f1f5f9; border: 1px solid #e2e8f0;
+                padding: 10px 18px; border-radius: 50px; font-size: 0.9rem !important;
+                font-weight: 700 !important; text-decoration: none !important;
+                display: flex; align-items: center; gap: 6px;
+            }
+            .btn-inicio-pro {
+                background: linear-gradient(135deg, #a855f7 0%, #d946ef 100%);
+                color: white !important; border: none; padding: 10px 22px; border-radius: 50px;
+                font-weight: 700 !important;
+            }
+
+            /* 3. CAJONES VERTICALES */
+            .row, .d-flex { display: flex !important; flex-direction: column !important; width: 100% !important; margin: 0 !important; }
+            div[class*="col-"] { width: 100% !important; max-width: 100% !important; display: block !important; margin-bottom: 20px !important; }
+
+            /* --- 4. MENÚ LATERAL (AQUÍ ESTÁ LA CORRECCIÓN) --- */
+            #nav-sidebar, .nav-sidebar, aside, .sidebar, #sidebar-left {
+                display: block !important;
+                visibility: visible !important;
+                position: fixed !important;
+                top: 0 !important;
+                width: 280px !important; 
+                height: 100vh !important;
+                background: #1a202c !important; 
+                z-index: 999999 !important; 
+                
+                /* CAMBIO CLAVE: -100% ASEGURA QUE SE ESCONDA TOTALMENTE */
+                left: -100% !important; 
+                
+                transition: left 0.3s ease-in-out !important;
+                overflow-y: auto !important;
+                box-shadow: 5px 0 20px rgba(0,0,0,0.5);
+                padding-top: 20px;
+                padding-bottom: 50px;
+            }
+
+            /* CLASE QUE LO MUESTRA */
+            .menu-abierto-force {
+                left: 0 !important; /* ENTRA A LA PANTALLA */
+            }
+
+            /* --- 5. CONTENIDO DEL MENÚ (SIEMPRE LISTO) --- */
+            #nav-sidebar *, .nav-sidebar *, aside * { display: block !important; visibility: visible !important; }
+            
+            #nav-sidebar caption, .nav-sidebar caption, #nav-sidebar th, .nav-sidebar th {
+                background: rgba(0,0,0,0.3) !important; color: #f5dd5d !important;
+                padding: 12px 20px !important; font-weight: bold !important; text-transform: uppercase;
+                border-bottom: 1px solid rgba(255,255,255,0.1) !important; width: 100% !important;
+            }
+            #nav-sidebar a, .nav-sidebar a, aside a {
+                padding: 12px 25px !important; color: #e2e8f0 !important; text-decoration: none !important;
+                border-bottom: 1px solid rgba(255,255,255,0.05) !important; font-size: 1rem !important;
+                width: 100% !important; box-sizing: border-box !important;
+            }
+            .nav-sidebar table, .nav-sidebar tbody, .nav-sidebar tr { display: block !important; width: 100% !important; }
+
+            /* 6. TELÓN */
+            .telon-negro {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.6); z-index: 50000; display: none;
+                backdrop-filter: blur(2px);
+            }
+            .visible { display: block !important; }
+
+            #toggle-nav-sidebar, .breadcrumbs { display: none !important; }
+            #content { padding: 15px !important; background: #f4f6f9; }
+            .results, #changelist-form { overflow-x: auto !important; width: 100% !important; display: block !important; }
+        }
+    </style>
+
+    <script>
+        function toggleMenuGlobal() {
+            var sidebar = document.querySelector('#nav-sidebar') || 
+                          document.querySelector('.nav-sidebar') || 
+                          document.querySelector('aside') ||
+                          document.querySelector('#sidebar-left');
+
+            var telon = document.getElementById('telon-negro');
+            var icono = document.getElementById('icono-menu');
+            
+            if (sidebar) {
+                if (sidebar.classList.contains('menu-abierto-force')) {
+                    // CERRAR
+                    sidebar.classList.remove('menu-abierto-force');
+                    telon.classList.remove('visible');
+                    if(icono) icono.className = 'fas fa-bars';
+                } else {
+                    // ABRIR
+                    sidebar.classList.add('menu-abierto-force');
+                    telon.classList.add('visible');
+                    if(icono) icono.className = 'fas fa-times';
+                }
+            } else {
+                console.log("Menú no encontrado para abrir.");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            if (window.innerWidth < 900) {
+                
+                // 1. BARRA SUPERIOR
+                const barra = document.createElement('div');
+                barra.className = 'barra-nav-movil';
+                barra.innerHTML = `
+                    <button class="btn-lila-menu" onclick="toggleMenuGlobal()">
+                        <i id="icono-menu" class="fas fa-bars"></i>
+                    </button>
+                    
+                    <a href="/reporte-financiero/" class="link-gris">Contabilidad</a>
+                    <a href="/pos/" class="link-gris"><i class="fas fa-store"></i> Punto de Venta</a>
+                    <a href="/" class="link-gris">Tienda</a>
+                    <a href="/admin/" class="link-gris btn-inicio-pro">Inicio</a>
+                `;
+
+                const branding = document.getElementById('branding-header');
+                if(branding) branding.insertAdjacentElement('afterend', barra);
+                else document.body.prepend(barra);
+
+                // 2. TELÓN
+                const telon = document.createElement('div');
+                telon.id = 'telon-negro';
+                telon.className = 'telon-negro';
+                telon.onclick = toggleMenuGlobal; 
+                document.body.appendChild(telon);
+            }
+        });
+    </script>
+{% endblock %}

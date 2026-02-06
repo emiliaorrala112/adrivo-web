@@ -1,0 +1,387 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static dashboard_data log %}
+
+{% block extrahead %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    /* =========================================
+       ESTILOS DEL DASHBOARD NEON GLOW
+       ========================================= */
+    :root {
+        --neon-blue: #06b6d4;
+        --neon-purple: #8b5cf6;
+        --neon-pink: #ec4899;
+        --text-dark: #1e293b;
+    }
+
+    /* 1. HERO BANNER */
+    .dashboard-hero {
+        background: linear-gradient(135deg, #4c1d95 0%, #2563eb 50%, #06b6d4 100%);
+        border-radius: 20px; padding: 40px; margin-bottom: 40px;
+        color: white; position: relative; overflow: hidden;
+        box-shadow: 0 10px 30px rgba(76, 29, 149, 0.4);
+    }
+    .dashboard-hero::before {
+        content: ''; position: absolute; top: -50%; right: -10%; width: 300px; height: 300px;
+        background: rgba(255, 255, 255, 0.1); border-radius: 50%; filter: blur(60px);
+    }
+    .hero-date {
+        background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+        padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;
+    }
+
+    /* 2. TARJETAS KPI */
+    .kpi-card {
+        background: white; border-radius: 20px; padding: 25px;
+        position: relative; overflow: hidden; height: 100%;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        border: 1px solid #f1f5f9; transition: transform 0.3s ease;
+        display: flex; flex-direction: column; justify-content: center;
+    }
+    .kpi-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+    
+    .kpi-number { font-size: 3rem; font-weight: 800; line-height: 1; margin-bottom: 5px; }
+    .kpi-label { font-size: 0.9rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+    .kpi-bg-icon {
+        position: absolute; right: -15px; bottom: -20px; font-size: 7rem;
+        opacity: 0.1; transform: rotate(-15deg); pointer-events: none; filter: grayscale(0.2);
+    }
+    .kpi-icon-box {
+        width: 60px; height: 60px; border-radius: 15px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.5rem; margin-bottom: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    /* Botón flotante (+) */
+    .add-shortcut {
+        position: absolute; top: 20px; right: 20px;
+        width: 35px; height: 35px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        text-decoration: none; font-weight: bold; transition: 0.2s;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 10;
+    }
+    .add-shortcut:hover { transform: scale(1.1); color: white !important; }
+
+    /* 3. CONTENEDORES */
+    .content-box {
+        background: white; border-radius: 20px; padding: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: 100%;
+        border: 1px solid #f1f5f9;
+    }
+    .box-title {
+        font-size: 1.1rem; font-weight: 800; color: var(--text-dark);
+        margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    }
+
+    /* 4. HISTORIAL */
+    .history-item {
+        display: flex; align-items: center; padding: 12px 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .history-item:last-child { border-bottom: none; }
+    .history-icon {
+        width: 35px; height: 35px; border-radius: 10px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        margin-right: 15px; font-size: 0.9rem;
+    }
+
+    /* 5. NOTAS RÁPIDAS (EDITOR) */
+    .notes-card {
+        background: white; border-radius: 20px; 
+        box-shadow: 0 10px 30px rgba(236, 72, 153, 0.15); 
+        display: flex; flex-direction: column; 
+        height: 100%; min-height: 450px; 
+        overflow: hidden; border: 1px solid #fce7f3;
+    }
+    .notes-header {
+        background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+        color: white; padding: 15px 25px;
+        font-weight: 800; font-size: 1.1rem;
+        display: flex; justify-content: space-between; align-items: center;
+    }
+    .notes-toolbar {
+        background: #fdf2f8; padding: 10px 20px;
+        border-bottom: 1px solid #fbcfe8;
+        display: flex; gap: 10px; color: #db2777; user-select: none;
+    }
+    .btn-tool {
+        background: none; border: none; color: #db2777; cursor: pointer;
+        padding: 5px; border-radius: 5px; font-size: 1rem; transition: 0.2s;
+    }
+    .btn-tool:hover { background: rgba(236, 72, 153, 0.1); transform: scale(1.1); }
+    
+    #adminNote {
+        flex-grow: 1; padding: 25px; overflow-y: auto; outline: none;
+        color: #334155; line-height: 1.8; background-color: #fff;
+        background-image: linear-gradient(#f1f5f9 1px, transparent 1px);
+        background-size: 100% 1.8rem; background-attachment: local;
+    }
+    #adminNote:empty:before {
+        content: attr(data-placeholder); color: #9ca3af; font-style: italic;
+    }
+    .notes-footer {
+        background: #fff; padding: 10px 25px;
+        border-top: 1px solid #f1f5f9;
+        font-size: 0.8rem; color: #94a3b8; text-align: right;
+        display: flex; justify-content: flex-end; align-items: center; gap: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% get_dashboard_stats as stats %}
+{% get_sales_chart_data as sales_data %}
+{% get_top_products_data as top_products %}
+
+<div class="container-fluid p-0 mb-5">
+    
+    <div class="row mb-4" style="align-items: stretch;"> 
+    
+    <div class="col-lg-9 col-12 mb-3 mb-lg-0">
+        <div class="card h-100" style="
+            background: linear-gradient(90deg, #5e35b1, #00acc1) !important; /* !important OBLIGATORIO */
+            color: white !important; 
+            border-radius: 20px !important; 
+            border: none !important;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(94, 53, 177, 0.3);
+            display: flex; align-items: center;
+        ">
+            <div class="card-body" style="padding: 30px; width: 100%; position: relative; z-index: 2;">
+                <h1 style="font-weight: 900; font-size: 2.2rem; margin-bottom: 5px; color: white !important; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                    ¡Hola, {{ user.username|title }}! ✨
+                </h1>
+                <p style="font-size: 1.1rem; opacity: 0.95; margin: 0; font-weight: 500; color: white !important;">
+                    Panel de control principal.
+                </p>
+                
+                <div style="position: absolute; right: 30px; top: 50%; transform: translateY(-50%); text-align: right;" class="d-none d-md-block">
+                    <span style="background: rgba(255,255,255,0.25); padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 700; color: white !important;">
+                        <i class="far fa-calendar-alt mr-2"></i> {% now "j F, Y" %}
+                    </span>
+                </div>
+            </div>
+            <i class="fas fa-rocket" style="position: absolute; right: -30px; bottom: -30px; font-size: 9rem; opacity: 0.15; transform: rotate(-20deg); z-index: 1; color: white !important;"></i>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-12">
+        <a href="{% url 'punto_venta' %}" style="text-decoration: none; display: block; height: 100%;">
+            <div class="card h-100" style="
+                background: linear-gradient(135deg, #ff4b9a 0%, #ba68c8 100%) !important; /* !important OBLIGATORIO */
+                border-radius: 20px !important;
+                border: none !important;
+                text-align: center;
+                display: flex; align-items: center; justify-content: center;
+                transition: all 0.3s ease;
+                box-shadow: 0 8px 20px rgba(186, 104, 200, 0.4);
+                position: relative; overflow: hidden;
+            "
+            onmouseover="this.style.transform='translateY(-5px)'; this.style.filter='brightness(1.1)';"
+            onmouseout="this.style.transform='translateY(0)'; this.style.filter='brightness(1)';"
+            >
+                <div class="card-body" style="z-index: 2;">
+                    <i class="fas fa-cash-register fa-3x" style="color: white !important; margin-bottom: 15px; display: block; text-shadow: 0 2px 5px rgba(0,0,0,0.2);"></i>
+                    
+                    <h5 style="font-weight: 900; color: white !important; font-size: 1.1rem; margin: 0; text-transform: uppercase; letter-spacing: 1px;">
+                        ABRIR CAJA
+                    </h5>
+                    <small style="color: rgba(255,255,255,0.9) !important; font-weight: 600; margin-top: 5px; display: block;">
+                        <i class="fas fa-store mr-1"></i> Venta Local
+                    </small>
+                </div>
+                
+                <i class="fas fa-shopping-bag" style="position: absolute; left: -20px; bottom: -20px; font-size: 6rem; color: white !important; opacity: 0.1; transform: rotate(30deg); z-index: 1;"></i>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-xl-4 col-md-6">
+            <div class="kpi-card">
+                <a href="{% url 'admin:inventario_producto_add' %}" class="add-shortcut" style="background: #e0f2fe; color: #0284c7;" title="Agregar Producto"><i class="fas fa-plus"></i></a>
+                <a href="{% url 'admin:inventario_producto_changelist' %}" class="text-decoration-none text-reset">
+                    <div class="kpi-icon-box" style="background: #eff6ff; color: #4318FF;"><i class="fas fa-cube"></i></div>
+                    <h2 class="kpi-number" style="color: #4318FF;">{{ stats.total_productos }}</h2>
+                    <p class="kpi-label">Productos Activos</p>
+                    <div class="kpi-bg-icon">🛍️</div>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-6">
+            <div class="kpi-card">
+                <a href="{% url 'admin:inventario_pedido_add' %}" class="add-shortcut" style="background: #ecfeff; color: #06b6d4;" title="Crear Pedido"><i class="fas fa-plus"></i></a>
+                <a href="{% url 'admin:inventario_pedido_changelist' %}" class="text-decoration-none text-reset">
+                    <div class="kpi-icon-box" style="background: #ecfeff; color: #06b6d4;"><i class="fas fa-shopping-cart"></i></div>
+                    <h2 class="kpi-number" style="color: #06b6d4;">{{ stats.total_pedidos }}</h2>
+                    <p class="kpi-label">Pedidos Totales</p>
+                    <div class="kpi-bg-icon">🛒</div>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-12">
+            <div class="kpi-card" style="border-left: 5px solid #ec4899;">
+                <a href="{% url 'admin_stock_view' %}" class="text-decoration-none text-reset">
+                    <div class="kpi-icon-box" style="background: #fdf2f8; color: #ec4899;"><i class="fas fa-bell"></i></div>
+                    <h2 class="kpi-number" style="color: #ec4899;">{{ stats.alertas_stock }}</h2>
+                    <p class="kpi-label">Alertas de Stock</p>
+                    <div class="kpi-bg-icon">🚨</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-lg-8">
+            <div class="content-box">
+                <div class="box-title"><span style="border-bottom: 3px solid #8b5cf6;">📊 Ventas del Semestre</span></div>
+                <div style="height: 300px;"><canvas id="salesChart"></canvas></div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="content-box">
+                <div class="box-title"><span style="border-bottom: 3px solid #06b6d4;">⭐ Top Productos</span></div>
+                <div style="height: 250px; display: flex; justify-content: center; align-items: center;"><canvas id="topChart"></canvas></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="content-box h-100">
+                <div class="box-title"><span style="border-bottom: 3px solid #4318FF;">🕘 Actividad Reciente</span></div>
+                {% get_admin_log 6 as admin_log for_user user %}
+                <div class="history-list">
+                    {% for entry in admin_log %}
+                    <div class="history-item">
+                        <div class="history-icon" 
+                             style="background: {% if entry.is_addition %}#dcfce7{% elif entry.is_change %}#eff6ff{% else %}#fee2e2{% endif %}; 
+                                    color: {% if entry.is_addition %}#16a34a{% elif entry.is_change %}#2563eb{% else %}#dc2626{% endif %};">
+                            {% if entry.is_addition %}<i class="fas fa-plus"></i>{% elif entry.is_change %}<i class="fas fa-pen"></i>{% else %}<i class="fas fa-trash"></i>{% endif %}
+                        </div>
+                        <div class="flex-grow-1">
+                            <strong style="color: #1e293b; display: block;">{{ entry.object_repr }}</strong>
+                            <span style="font-size: 0.8rem; color: #64748b;">{{ entry.content_type.name|capfirst }}</span>
+                        </div>
+                        <span style="font-size: 0.75rem; font-weight: 600; color: #94a3b8;">{{ entry.action_time|timesince }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-5">
+            <div class="notes-card">
+                <div class="notes-header">
+                    <span><i class="fas fa-sticky-note me-2"></i> Notas Rápidas</span>
+                    <i class="fas fa-trash-alt btn-tool" onclick="clearAllNotes()" title="Limpiar notas" style="cursor: pointer; color: white; opacity: 0.8;"></i>
+                </div>
+                
+                <div class="notes-toolbar">
+                    <button type="button" class="btn-tool" onclick="formatDoc('bold')" title="Negrita"><b>B</b></button>
+                    <button type="button" class="btn-tool" onclick="formatDoc('italic')" title="Cursiva"><i>I</i></button>
+                    <button type="button" class="btn-tool" onclick="formatDoc('underline')" title="Subrayado"><u>U</u></button>
+                    <button type="button" class="btn-tool" onclick="formatDoc('strikeThrough')" title="Tachar"><s>S</s></button>
+                    <span style="border-right: 1px solid #fbcfe8; margin: 0 5px;"></span>
+                    <button type="button" class="btn-tool" onclick="formatDoc('insertUnorderedList')" title="Lista"><i class="fas fa-list-ul"></i></button>
+                    <button type="button" class="btn-tool" onclick="insertCheckbox()" title="Tarea"><i class="fas fa-check-square"></i></button>
+                </div>
+
+                <div id="adminNote" contenteditable="true" data-placeholder="Escribe tus pendientes, ideas o recordatorios aquí..." spellcheck="false"></div>
+                
+                <div class="notes-footer">
+                    <span id="saveStatus"><i class="fas fa-check-circle text-success"></i> Guardado automático</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- LÓGICA DE NOTAS (SIN MENSAJES MOLESTOS) ---
+    function formatDoc(cmd) {
+        document.execCommand(cmd, false, null);
+        document.getElementById('adminNote').focus();
+        saveNotes();
+    }
+    function insertCheckbox() {
+        document.execCommand('insertText', false, "☐ ");
+        document.getElementById('adminNote').focus();
+        saveNotes();
+    }
+    
+    // BORRADO INSTANTÁNEO
+    function clearAllNotes() {
+        const noteArea = document.getElementById('adminNote');
+        const statusMsg = document.getElementById("saveStatus");
+        
+        // Animación de desvanecimiento para que se vea bonito al borrar
+        noteArea.style.opacity = '0.3';
+        setTimeout(() => {
+            noteArea.innerHTML = ""; // Borrar contenido
+            saveNotes(); // Guardar vacío
+            noteArea.style.opacity = '1'; // Restaurar opacidad
+            // Feedback visual
+            statusMsg.innerHTML = '<i class="fas fa-trash-alt text-danger"></i> Notas eliminadas';
+            setTimeout(() => {
+                statusMsg.innerHTML = '<i class="fas fa-check-circle text-success"></i> Listo para escribir';
+            }, 1500);
+        }, 200);
+    }
+
+    const noteArea = document.getElementById("adminNote");
+    const statusMsg = document.getElementById("saveStatus");
+
+    function saveNotes() {
+        if(noteArea) {
+            localStorage.setItem("adrivoAdminNoteHTML", noteArea.innerHTML);
+            statusMsg.style.opacity = "0.5";
+            setTimeout(() => statusMsg.style.opacity = "1", 200);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if(noteArea) {
+            const saved = localStorage.getItem("adrivoAdminNoteHTML");
+            if (saved) noteArea.innerHTML = saved;
+            noteArea.addEventListener("input", saveNotes);
+        }
+
+        // --- GRÁFICAS ---
+        const ctxSales = document.getElementById('salesChart');
+        if(ctxSales) {
+            new Chart(ctxSales, {
+                type: 'line',
+                data: {
+                    labels: {{ sales_data.labels|safe }},
+                    datasets: [{
+                        label: 'Ventas ($)', data: {{ sales_data.data|safe }},
+                        borderColor: '#8b5cf6', backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        fill: true, tension: 0.4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { beginAtZero: true, grid: { color: '#f1f5f9' } } } }
+            });
+        }
+        const ctxTop = document.getElementById('topChart');
+        if(ctxTop) {
+            new Chart(ctxTop, {
+                type: 'doughnut',
+                data: {
+                    labels: {{ top_products.labels|safe }},
+                    datasets: [{
+                        data: {{ top_products.data|safe }},
+                        backgroundColor: ['#06b6d4', '#8b5cf6', '#ec4899', '#3b82f6', '#10b981'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } } }
+            });
+        }
+    });
+</script>
+{% endblock %}

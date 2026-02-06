@@ -1,0 +1,311 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* =========================================
+       1. ESTILOS DE PANTALLA (DASHBOARD)
+       ========================================= */
+    
+    .dashboard-row { display: flex; flex-wrap: wrap; margin: 0 -15px 30px; }
+    .dashboard-col { flex: 0 0 33.3333%; max-width: 33.3333%; padding: 0 15px; }
+
+    /* Tarjetas */
+    .kpi-card {
+        background: white; border-radius: 12px; padding: 25px 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center;
+        position: relative; overflow: hidden; transition: transform 0.3s ease;
+    }
+    .kpi-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .kpi-card::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px; }
+    
+    .card-green::after { background: #2ecc71; }
+    .card-red::after { background: #e74c3c; }
+    .card-blue::after { background: #3498db; }
+
+    .kpi-label { font-size: 0.85rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .kpi-number { font-size: 2.4rem; font-weight: 800; color: #333; line-height: 1.2; }
+
+    /* --- BOTÓN NUEVO GASTO (CORREGIDO) --- */
+    .btn-action-gasto {
+        /* Degradado exacto de tu marca */
+        background: linear-gradient(90deg, #ff4b9a, #ba68c8); 
+        color: white !important;
+        border: none;
+        /* Más pequeño y compacto */
+        padding: 5px 15px; 
+        border-radius: 50px; 
+        font-weight: 700;
+        font-size: 0.75rem; /* Letra más fina */
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+        box-shadow: 0 3px 8px rgba(186, 104, 200, 0.3);
+        transition: all 0.2s ease;
+    }
+    .btn-action-gasto:hover { 
+        opacity: 0.9; 
+        transform: translateY(-2px);
+        box-shadow: 0 5px 12px rgba(186, 104, 200, 0.5);
+    }
+
+    .print-only-header { display: none; }
+
+    /* =========================================
+       2. ESTILOS DE IMPRESIÓN (PDF / PAPEL)
+       ========================================= */
+    @media print {
+        .main-header, .main-sidebar, .no-print, .btn, .breadcrumb, .main-footer, .nav, .navbar { display: none !important; }
+        .content-wrapper, .main-panel, body, html { margin: 0 !important; padding: 0 !important; width: 100% !important; background: white !important; }
+
+        /* ENCABEZADO */
+        .print-only-header { 
+            display: flex !important; justify-content: space-between; align-items: flex-end;
+            background: white; color: #333;
+            padding-bottom: 20px; margin-bottom: 40px;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(to right, #ff4b9a, #ba68c8) 1;
+        }
+
+        .header-logo-section { display: flex; align-items: center; gap: 20px; }
+        .header-logo img { height: 65px; width: auto; object-fit: contain; }
+        
+        .header-brand h1 { margin: 0; font-size: 2rem; font-weight: 800; text-transform: uppercase; color: #222; letter-spacing: -0.5px; }
+        .header-brand p { margin: 5px 0 0; font-size: 0.9rem; color: #666; }
+        
+        .header-meta { text-align: right; }
+        .header-meta h2 { margin: 0; font-size: 1.4rem; font-weight: 600; color: #ba68c8; text-transform: uppercase; }
+        .header-meta .date { font-size: 0.9rem; color: #555; margin-top: 5px; font-weight: 500; }
+
+        /* Tarjetas Impresión */
+        .dashboard-row { display: flex; gap: 20px; margin-bottom: 30px; }
+        .dashboard-col { flex: 1; padding: 0; }
+        .kpi-card {
+            border: 1px solid #eee; box-shadow: none; padding: 15px; border-radius: 8px;
+            background: #f8f9fa; text-align: left;
+            border-left: 4px solid #ccc;
+        }
+        .kpi-label { font-size: 0.75rem; }
+        .kpi-number { font-size: 1.8rem; }
+
+        /* Tablas */
+        .card { border: none !important; box-shadow: none !important; }
+        .card-header { 
+            background: #333 !important; color: white !important; padding: 8px 15px;
+            font-weight: 700; text-transform: uppercase; font-size: 0.8rem;
+            -webkit-print-color-adjust: exact;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 15px; }
+        th { border-bottom: 2px solid #333; text-align: left; padding: 8px; color: #333; font-weight: 700; }
+        td { border-bottom: 1px solid #eee; padding: 8px 8px; color: #444; }
+        
+        .footer-print {
+            position: fixed; bottom: 15px; width: 100%; text-align: center;
+            font-size: 0.7rem; color: #999; border-top: 1px solid #eee; padding-top: 10px; font-family: monospace;
+        }
+    }
+
+    /* =========================================
+       CORRECCIÓN FINAL: CENTRADO ABSOLUTO (TODO AL MEDIO)
+       (Pegar dentro de <style>)
+       ========================================= */
+    @media (max-width: 900px) {
+
+        /* 1. EL CONTENEDOR Y LOS TÍTULOS */
+        .container-fluid, h2, .no-print {
+            text-align: center !important; /* Texto al centro */
+            justify-content: center !important; /* Flex al centro */
+            align-items: center !important;
+            width: 100% !important;
+        }
+
+        /* Centrar el icono y el texto del título "Dashboard" */
+        h2 { 
+            display: flex !important; 
+            flex-direction: column !important; /* Icono arriba, texto abajo si hace falta */
+            margin: 0 auto 10px !important;
+        }
+        h2 i { margin: 0 0 5px 0 !important; } /* Ajuste del icono */
+
+        /* 2. LAS FILAS Y COLUMNAS (Apiladas y Centradas) */
+        .row, .dashboard-row {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important; /* Centra los hijos horizontalmente */
+            margin: 0 !important;
+            width: 100% !important;
+        }
+        
+        .col-md-4, .col-md-6, .col-md-8, .dashboard-col {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin-bottom: 15px !important;
+        }
+
+        /* 3. TARJETAS (Todo el contenido al centro) */
+        .card, .kpi-card {
+            text-align: center !important;
+            margin: 0 auto !important; /* Centra la tarjeta en sí */
+            width: 100% !important;
+        }
+        
+        .kpi-number, .kpi-label {
+            text-align: center !important;
+            display: block !important;
+            width: 100% !important;
+        }
+
+        /* 4. TABLAS (FORZAR CENTRADO EN CELDAS) */
+        /* Esto anula el "text-right" de los precios */
+        .table th, .table td, .table tr {
+            text-align: center !important; /* ¡ESTO ES LO IMPORTANTE! */
+            vertical-align: middle !important;
+        }
+        
+        /* Asegurar que la tabla en sí esté al medio */
+        .table {
+            margin: 0 auto !important;
+            width: 100% !important;
+            min-width: 100% !important; /* Ocupa todo el ancho */
+        }
+        
+        /* Contenedor deslizable */
+        .card-body {
+            overflow-x: scroll !important;
+            text-align: center !important;
+        }
+
+        /* 5. BOTONES */
+        .btn, .btn-action-gasto {
+            margin: 10px auto !important; /* Auto a los lados = Centrado */
+            display: block !important;
+            width: 90% !important;
+            float: none !important; /* Quita flotados rebeldes */
+        }
+        
+        /* Cabecera de la tarjeta de gastos */
+        .card-header {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+            text-align: center !important;
+        }
+    }
+
+</style>
+
+<div class="container-fluid">
+    
+    <div class="print-only-header">
+        <div class="header-logo-section">
+            <div class="header-logo">
+                <img src="{% static 'logo_adrivo.jpg' %}" alt="Adrivo R. Logo">
+            </div>
+            <div class="header-brand">
+                <h1>Adrivo R.</h1>
+                <p>Reporte Contable & Financiero</p>
+            </div>
+        </div>
+        <div class="header-meta">
+            <h2>Estado de Situación</h2>
+            <div class="date">Corte al: {% now "d \d\e F, Y" %}</div>
+        </div>
+    </div>
+
+    <div class="row mb-4 no-print align-items-center">
+        <div class="col-md-8">
+            <h2 style="margin:0; font-weight:800; color:#333;">
+                <i class="fas fa-chart-line" style="color:#ba68c8; margin-right:10px;"></i>Dashboard Contable
+            </h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <button onclick="window.print()" class="btn btn-dark shadow-sm">
+                <i class="fas fa-print mr-2"></i> Imprimir Reporte Oficial
+            </button>
+        </div>
+    </div>
+
+    <div class="dashboard-row">
+        <div class="dashboard-col">
+            <div class="kpi-card card-green">
+                <div class="kpi-label">Ingresos Totales (Ventas)</div>
+                <div class="kpi-number text-success">+${{ total_ingresos|floatformat:2 }}</div>
+            </div>
+        </div>
+        <div class="dashboard-col">
+            <div class="kpi-card card-red">
+                <div class="kpi-label">Gastos Operativos</div>
+                <div class="kpi-number text-danger">-${{ total_gastos|floatformat:2 }}</div>
+            </div>
+        </div>
+        <div class="dashboard-col">
+            <div class="kpi-card card-blue">
+                <div class="kpi-label">Utilidad Neta Real</div>
+                <div class="kpi-number text-primary">${{ ganancia_neta|floatformat:2 }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header">🛒 Últimas Ventas Registradas</div>
+                <div class="card-body p-0">
+                    <table class="table table-hover m-0">
+                        <thead>
+                            <tr><th>ID</th><th>Cliente</th><th class="text-right">Monto</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for p in ultimos_pedidos %}
+                            <tr>
+                                <td><strong>#{{ p.id }}</strong></td>
+                                <td>{{ p.usuario.username }}</td>
+                                <td class="text-right text-success font-weight-bold">+${{ p.total }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="3" class="text-center p-4 text-muted">No hay ventas recientes.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>📉 Últimos Gastos</span>
+                    <a href="/admin/inventario/gasto/add/" class="btn-action-gasto no-print">
+                        <i class="fas fa-plus-circle"></i> Nuevo Gasto
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover m-0">
+                        <thead>
+                            <tr><th>Concepto</th><th>Fecha</th><th class="text-right">Monto</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for g in ultimos_gastos %}
+                            <tr>
+                                <td>{{ g.descripcion }}</td>
+                                <td>{{ g.fecha|date:"d/m/Y" }}</td>
+                                <td class="text-right text-danger font-weight-bold">-${{ g.monto }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="3" class="text-center p-4 text-muted">No hay gastos registrados.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-print no-print">
+        Documento confidencial generado por Sistema Adrivo R. | ID Reporte: {% now "U" %} | {% now "Y" %}
+    </div>
+
+</div>
+{% endblock %}

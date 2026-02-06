@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; background-color: #f4f4f4; }
+        .wrapper { width: 100%; background-color: #f4f4f4; padding: 20px 0; }
+        .main-content { background-color: #ffffff; margin: 0 auto; max-width: 600px; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; }
+        
+        /* CABECERA MORADA */
+        .hero-header { background-color: #6f42c1; padding: 30px; text-align: center; }
+        .hero-title { color: #ffffff; margin: 15px 0 0 0; font-size: 24px; }
+        
+        /* LOGO: Asegúrate de usar una URL pública */
+        .logo-img { background: #fff; border-radius: 50%; width: 60px; height: 60px; padding: 5px; }
+
+        .body-section { padding: 30px; color: #555; }
+        .product-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .product-table th { text-align: left; border-bottom: 2px solid #eee; padding: 10px; color: #6f42c1; font-size: 12px; }
+        .product-table td { padding: 10px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+        
+        .totals-block { width: 100%; margin-top: 20px; }
+        .totals-row td { text-align: right; padding: 5px; }
+        .grand-total { font-size: 20px; font-weight: bold; color: #6f42c1; }
+        
+        .btn-whatsapp { display: inline-block; background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="main-content">
+            
+            <div class="hero-header">
+                <img src="https://scontent-mia5-1.xx.fbcdn.net/v/t39.30808-6/449076193_496693922753548_4250366261843839232_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHOooR6_-V0-83qCWdnrhNIbqIjebGdsuNuoiN5sZ2y48ynbqtrZdf1xfgnca-w-Po5FNj4cbNsgAKFFKGBjzKv&_nc_ohc=wZeeLhqRrbIQ7kNvwEe-qfF&_nc_oc=Admneq7SnsaSJXp05eJurEnyGEqhILpqFMfqPaFKJvYp0fmgV7gamjJTVcTFc_NLkG3TLNGLe2tqw3H0LYFYAPnS&_nc_zt=23&_nc_ht=scontent-mia5-1.xx&_nc_gid=InaDAgV7JJ-S61dyaQkAkQ&oh=00_AfvxU3_S_7pDXx6tA9fqFBCm-omer5SvheB74Vcn8vbXcg&oe=69887A05" class="logo-img" alt="Adrivo">
+    
+                <h1 class="hero-title">¡Confirmación de Pedido!</h1>
+            </div>
+
+            <div class="body-section">
+                <p>Hola <strong>{{ pedido.nombre_destinatario|default:"Cliente" }}</strong>, 👋</p>
+                <p>¡Gracias por comprar en Adrivo! Hemos recibido tu orden <strong>#{{ pedido.id|stringformat:"04d" }}</strong> y estamos preparando tus productos.</p>
+
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th width="50%">PRODUCTO</th>
+                            <th width="15%" style="text-align: center;">CANT.</th>
+                            <th width="20%" style="text-align: right;">PRECIO</th>
+                            <th width="15%" style="text-align: right;">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for linea in pedido.lineas.all %}
+                        <tr>
+                            <td>
+                                <strong style="color:#333;">{{ linea.producto.nombre }}</strong>
+                                
+                                {% if linea.variacion %}
+                                    <br><span style="font-size: 12px; color: #e91e63; background: #fce4ec; padding: 2px 5px; border-radius: 4px;">
+                                        💟: {{ linea.variacion }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td style="text-align: center;">{{ linea.cantidad }}</td>
+                            <td style="text-align: right;">${{ linea.precio_unitario }}</td>
+                            <td style="text-align: right; font-weight: bold;">${{ linea.subtotal }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <table class="totals-block">
+                    <tr class="totals-row">
+                        <td width="70%">Subtotal:</td>
+                        <td width="30%">${{ pedido.total_sin_envio|default:pedido.total }}</td>
+                    </tr>
+                    <tr class="totals-row">
+                        <td>Envío:</td>
+                        <td>${{ pedido.costo_envio }}</td>
+                    </tr>
+                    <tr class="totals-row">
+                        <td style="padding-top: 10px; font-weight: bold;">TOTAL:</td>
+                        <td class="grand-total" style="padding-top: 10px;">${{ pedido.total }}</td>
+                    </tr>
+                </table>
+
+                <div style="background: #f9f9f9; padding: 15px; margin-top: 30px; border-left: 4px solid #6f42c1;">
+                    <strong>📍 Se enviará a:</strong><br>
+                    {{ pedido.provincia }} - {{ pedido.canton }}<br>
+                    {{ pedido.direccion }}<br>
+                    Tel: {{ pedido.telefono }}
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="https://wa.me/593996578334" class="btn-whatsapp">
+                        ✆ Contactanos
+                    </a>
+                </div>
+
+            </div>
+            
+            <div style="background: #eee; padding: 20px; text-align: center; font-size: 12px; color: #888;">
+                &copy; 2026 Variedades Adrivo R. - Belleza & Estilo 💌
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
