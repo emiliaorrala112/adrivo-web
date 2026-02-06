@@ -154,68 +154,56 @@
         .site-footer { background: white; border-top: 2px solid #fff0f6; padding: 30px; text-align: center; color: #999; font-size: 0.9rem; margin-top: auto; font-weight: 600; }
 
         /* --- CÓDIGO (RESPONSIVE) --- */
-    @media (max-width: 900px) {
-        
-        /* 1. ENCABEZADO ORDENADO */
-        .header-top {
-            flex-direction: column !important;
-            padding: 15px !important;
-            gap: 15px;
-        }
-        
-        /* 2. BUSCADOR AL 100% (Para que se vea bien y grande) */
-        .search-form {
-            width: 100% !important;
-            max-width: 100% !important;
-            margin: 5px 0;
-        }
-        
-        /* 3. ICONOS (Favoritos, Carrito, Login) CENTRADOS */
-        .header-actions {
-            width: 100%;
-            justify-content: space-around; /* Distribuye el espacio */
-            gap: 10px;
-        }
-        
-        /* 4. MENÚ DE CATEGORÍAS TIPO APP (Deslizable con el dedo) */
-        /* Esto evita el desorden de muchas letras amontonadas */
-        .nav-categories {
-            flex-wrap: nowrap !important;
-            overflow-x: auto !important; /* Scroll horizontal */
-            justify-content: flex-start !important;
-            padding: 0 10px !important;
-            -webkit-overflow-scrolling: touch; /* Suavidad en iPhone */
-        }
-        .nav-item {
-            flex-shrink: 0; /* Que no se aplasten los botones */
-        }
-        .nav-link-cat {
-            font-size: 0.75rem;
-            padding: 12px 15px;
-            white-space: nowrap; /* Texto en una sola línea */
-        }
-
-        /* 5. ARREGLO DEL "PANEL DE CONTROL" (MENÚ AZUL) */
-        /* Esto es lo que arregla que todo se vea feo y aplastado */
-        /* Obliga a que el panel y el contenido se pongan uno debajo del otro */
-        body, .d-flex, .wrapper, .main-container {
-            display: block !important; 
-        }
-
-        /* Si el panel azul usa alguna de estas clases comunes, se arreglará: */
-        .sidebar, .nav-sidebar, #sidebar-wrapper, .border-end {
-            width: 100% !important;
-            height: auto !important;
-            position: relative !important;
-            min-height: auto !important;
-            margin-bottom: 20px;
-            display: block !important; /* Asegura que se vea */
-        }
-
-        /* 6. BOTÓN FLOTANTE (ADRIVITO) */
-        .adrivito-avatar { width: 55px; height: 55px; }
-        .adrivito-container { bottom: 15px; right: 15px; }
+    /* --- ARREGLO RESPONSIVE PARA CELULARES --- */
+@media (max-width: 768px) {
+    /* 1. Header principal en columna */
+    .header-top {
+        flex-direction: column !important;
+        padding: 10px !important;
+        gap: 15px !important;
     }
+
+    /* 2. Logo más pequeño y centrado */
+    .brand-badge {
+        position: relative !important; /* Quitamos el fixed que causaba el choque */
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    .brand-badge img { height: 45px !important; width: 45px !important; }
+    .brand-badge span { font-size: 1.4rem !important; }
+
+    /* 3. Buscador al 100% de ancho */
+    .search-form {
+        width: 100% !important;
+        max-width: 100% !important;
+        order: 2; /* Lo bajamos después del logo */
+    }
+
+    /* 4. Botones de Sesión (Login/Registro) juntos y ordenados */
+    .header-actions {
+        width: 100% !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        order: 3;
+        flex-wrap: wrap;
+    }
+
+    /* 5. Ajuste de los botones para que no se encimen */
+    .btn-login-outline, .btn-register-fill {
+        padding: 8px 15px !important;
+        font-size: 0.8rem !important;
+        flex: 1; /* Para que midan lo mismo */
+        text-align: center;
+    }
+
+    /* 6. Carrito flotante a la derecha para que no estorbe */
+    a[title="Ver Carrito"] {
+        position: absolute !important;
+        top: 15px !important;
+        right: 15px !important;
+        margin: 0 !important;
+    }
+}
     </style>
 </head>
 <body>
