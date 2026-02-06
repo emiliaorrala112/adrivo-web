@@ -1,6 +1,6 @@
 import os
-import dj_database_url  
 from pathlib import Path
+import dj_database_url  
 from django.conf import settings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -206,6 +206,8 @@ EMAIL_HOST_PASSWORD = 'nvltgcyuqqdblctz'
 # settings.py
 # Configuración de Archivos Estáticos
 STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Esto le dice a Django dónde guardar los archivos
 if not DEBUG:
@@ -215,3 +217,5 @@ else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+LOGIN_URL = 'login'
