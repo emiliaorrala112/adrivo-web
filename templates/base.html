@@ -155,50 +155,49 @@
 
         /* --- CÓDIGO (RESPONSIVE) --- */
     @media (max-width: 768px) {
-    /* 1. El header deja de ser pegajoso para que se esconda al bajar */
+    /* 1. Header fluido y compacto */
     .sticky-header { position: relative !important; width: 100% !important; }
-
-    /* 2. Logo y Carrito en la misma línea (Ahorra espacio) */
-    .header-top {
-        display: grid !important;
-        grid-template-columns: 1fr auto !important; /* Logo izquierda, Carrito derecha */
-        padding: 8px 15px !important;
-        gap: 10px !important;
+    .header-top { 
+        padding: 5px 8px !important; 
+        display: flex !important; 
+        flex-direction: column !important; 
+        gap: 5px !important; 
     }
 
-    .brand-badge { justify-content: flex-start !important; }
-    .brand-badge img { height: 35px !important; width: 35px !important; }
-    .brand-badge span { font-size: 1.2rem !important; }
-
-    /* 3. El carrito ahora es un icono discreto a la derecha */
-    a[title="Ver Carrito"] {
-        position: static !important;
-        background: none !important;
-        box-shadow: none !important;
-        margin: 0 !important;
-    }
-    a[title="Ver Carrito"] i { color: #ff4b9a !important; font-size: 1.5rem !important; }
-
-    /* 4. Buscador centrado y delgado debajo del logo */
-    .search-form {
-        grid-column: 1 / span 2 !important; /* Ocupa todo el ancho abajo */
+    /* 2. Logo y Carrito en la misma línea superior */
+    .top-bar-mobile {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
         width: 100% !important;
-        margin-top: 5px !important;
     }
-    .search-input { height: 35px !important; font-size: 0.85rem !important; }
+    .brand-badge img { height: 32px !important; width: 32px !important; }
+    .brand-badge span { font-size: 1.1rem !important; }
 
-    /* 5. Escondemos "Nosotros" y botones grandes en móvil para no saturar */
-    a[title="Sobre Nosotros"], .btn-login-outline, .btn-register-fill { 
-        display: none !important; 
-    }
+    /* 3. El Buscador: Más delgado para ahorrar espacio */
+    .search-form { width: 100% !important; margin: 0 !important; }
+    .search-input { height: 32px !important; font-size: 0.8rem !important; padding: 5px 15px !important; }
 
-    /* 6. Mostramos solo iconos pequeños para Login/Favoritos */
+    /* 4. BOTONES: La solución para que calcen perfecto */
     .header-actions {
-        grid-column: 1 / span 2 !important;
-        justify-content: space-around !important;
-        border-top: 1px solid #eee;
-        padding-top: 10px !important;
+        display: flex !important;
+        justify-content: center !important;
+        width: 100% !important;
+        gap: 5px !important; /* Espacio mínimo entre botones */
+        margin-top: 2px !important;
     }
+
+    .btn-login-outline, .btn-register-fill {
+        flex: 1 !important; /* Cada uno ocupa la mitad de la pantalla */
+        padding: 6px 2px !important; /* Menos relleno para que quepa el texto */
+        font-size: 0.72rem !important; /* Tamaño de letra pequeño pero legible */
+        text-align: center !important;
+        white-space: nowrap !important; /* Evita que el texto se salte de línea */
+        border-radius: 8px !important;
+    }
+
+    /* Escondemos iconos extras que estorben en el primer vistazo móvil */
+    .header-actions a[title="Sobre Nosotros"] { display: none !important; }
 }
     </style>
 </head>
