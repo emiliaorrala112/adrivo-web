@@ -154,61 +154,42 @@
         .site-footer { background: white; border-top: 2px solid #fff0f6; padding: 30px; text-align: center; color: #999; font-size: 0.9rem; margin-top: auto; font-weight: 600; }
 
         /* --- CÓDIGO (RESPONSIVE) --- */
-    /* --- ARREGLO FINAL RESPONSIVE (CELULARES) --- */
-@media (max-width: 768px) {
-    /* 1. Forzamos a que el encabezado sea una columna vertical */
+    @media (max-width: 768px) {
+    /* 1. Hacemos que el header NO sea fijo para que se esconda al bajar */
+    .sticky-header { 
+        position: relative !important; 
+        box-shadow: none !important;
+    }
+
     .header-top {
-        flex-direction: column !important;
-        align-items: center !important;
-        padding: 15px 10px !important;
-        gap: 12px !important;
-        position: relative !important;
-    }
-
-    /* 2. El Logo se queda arriba y centrado */
-    .brand-badge {
-        width: 100% !important;
-        justify-content: center !important;
-        margin-bottom: 5px !important;
-    }
-    .brand-badge img { height: 45px !important; width: 45px !important; }
-
-    /* 3. El Buscador ocupa todo el ancho sin chocar */
-    .search-form {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 !important;
-    }
-
-    /* 4. Los botones de Login y Registro se acomodan en una fila limpia */
-    .header-actions {
-        width: 100% !important;
-        display: flex !important;
-        justify-content: center !important;
-        flex-wrap: wrap !important; /* Si no caben, bajan ordenadamente */
+        padding: 5px 10px !important; /* Reducimos el aire */
         gap: 8px !important;
     }
 
-    /* 5. Ajustamos el tamaño de los botones para que no se encimen */
-    .btn-login-outline, .btn-register-fill {
-        padding: 8px 12px !important;
-        font-size: 0.75rem !important;
-        flex: 1 1 auto !important; /* Se ajustan al tamaño de la pantalla */
-        text-align: center !important;
-        white-space: nowrap !important; /* Evita que el texto se parta en dos */
+    /* 2. Logo y Carrito en una sola línea muy delgada */
+    .brand-badge { 
+        margin: 0 !important; 
+        justify-content: flex-start !important; 
     }
+    .brand-badge img { height: 35px !important; width: 35px !important; }
+    .brand-badge span { font-size: 1.1rem !important; }
 
-    /* 6. El Carrito se va a la esquina superior derecha para no estorbar */
-    a[title="Ver Carrito"] {
-        position: absolute !important;
-        top: 15px !important;
-        right: 15px !important;
-        background: #ff4b9a !important;
-        padding: 8px !important;
-        border-radius: 50% !important;
-        box-shadow: 0 4px 10px rgba(255, 75, 154, 0.3) !important;
+    /* 3. Buscador compacto */
+    .search-input { padding: 6px 15px !important; font-size: 0.85rem !important; }
+
+    /* 4. Iconos y botones en filas pequeñas */
+    .header-actions { 
+        gap: 15px !important; 
+        margin-top: 5px !important;
     }
-    a[title="Ver Carrito"] i { color: white !important; font-size: 1rem !important; }
+    .icon-btn { font-size: 1.1rem !important; }
+
+    /* 5. Botones de sesión más finos */
+    .btn-login-outline, .btn-register-fill {
+        padding: 5px 10px !important;
+        font-size: 0.7rem !important;
+        border-radius: 10px !important;
+    }
 }
     </style>
 </head>
