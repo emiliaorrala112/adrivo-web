@@ -296,7 +296,7 @@
     <input type="text" name="referencia" 
            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; outline: none;"
            placeholder="Frente a... (Opcional)"> </div>
-           
+
                 </div>
                 <div style="margin-top:30px;">
                     <label class="lbl" style="color:var(--primary); font-size:0.9rem;"><i class="fas fa-map-marker-alt"></i> UBICACIÓN EXACTA (Mueve el Pin):</label>
@@ -398,12 +398,16 @@
     function nextStep() {
         if(step === 3) { finalProcess(); return; }
         
-        // --- AQUÍ EMPIEZA EL CONTROL DEL PASO 2 ---
         if(step === 2) {
             const inputs = document.querySelectorAll('#view-2 input');
             let hayError = false;
             
             inputs.forEach(i => {
+
+                if (i.name === 'referencia') {
+                    i.classList.remove('error-border'); // Le quitamos lo rojo por si acaso
+                    return; // Saltamos al siguiente campo
+                }
                 // 1. Revisar si está vacío (y no es opcional)
                 if(i.placeholder.indexOf('(Opcional)') === -1 && i.value.trim() === '') {
                     i.classList.add('error-border');
