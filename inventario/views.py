@@ -108,11 +108,16 @@ def procesar_pedido(request):
                     provincia=request.POST.get('provincia'),
                     canton=request.POST.get('canton'),
                     direccion=dir_completa,
-                    costo_envio=costo_envio, # Guardamos cuánto costó el envío esa vez
+
+                    referencia=request.POST.get('referencia', ''),
+
+                    costo_envio=costo_envio, 
                     total=total_float
+                    
+                    
                 )
 
-                # 4. Guardar Líneas y Restar Stock
+                
                 # 4. Guardar Líneas y Restar Stock (CORREGIDO)
                 lineas = []
                 for key, item in carrito.carrito.items():

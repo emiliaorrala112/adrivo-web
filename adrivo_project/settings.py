@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-import dj_database_url  
+#import dj_database_url  
 from django.conf import settings
 import cloudinary.uploader
 import cloudinary.api
@@ -8,7 +8,7 @@ import cloudinary
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-clave-secreta-adrivo-final'
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -59,13 +59,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'adrivo_project.wsgi.application'
 
-# BASE DE DATOS INTELIGENTE (NUBE + LOCAL)
 DATABASES = {
-    'default': dj_database_url.config(
-        # Aquí le decimos: "Si no estás en la nube, usa mi PostgreSQL local"
-        default='postgresql://postgres:adrivo@127.0.0.1:5432/adrivoweb_db',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 AUTH_PASSWORD_VALIDATORS = [

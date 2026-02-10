@@ -396,41 +396,39 @@
     function toggleModal(id) { const m = document.getElementById(id); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; }
 
     function nextStep() {
-        if(step === 3) { finalProcess(); return; }
-        
-        if(step === 2) {
-            const inputs = document.querySelectorAll('#view-2 input');
-            let hayError = false;
-            
-            inputs.forEach(i => {
+    if(step === 3) { finalProcess(); return; }
 
-                if (i.name === 'referencia') {
-                    i.classList.remove('error-border'); // Le quitamos lo rojo por si acaso
-                    return; // Saltamos al siguiente campo
-                }
-                // 1. Revisar si está vacío (y no es opcional)
-                if(i.placeholder.indexOf('(Opcional)') === -1 && i.value.trim() === '') {
-                    i.classList.add('error-border');
-                    if(i.nextElementSibling) i.nextElementSibling.style.display = 'block';
-                    hayError = true;
-                }
-                // 2. Revisar si ya tiene error marcado (rojo)
-                if(i.classList.contains('error-border')) {
-                    hayError = true;
-                }
-            });
+    if(step === 2) {
+        const inputs = document.querySelectorAll('#view-2 input');
+        let hayError = false;
 
-            if(hayError) { 
-                Swal.fire({icon:'warning', title:'Atención', text:'Corrige los campos en rojo antes de continuar.'}); 
-                return; // ¡AQUÍ SE FRENA SI ESTÁ MAL!
+        inputs.forEach(i => {
+            // EL TRUCO: Si es referencia, lo ignora y pasa
+            if (i.name === 'referencia') {
+                i.classList.remove('error-border');
+                return; 
             }
-            
-            if(!mapLinkUrl) { Swal.fire({icon:'warning', title:'Mapa', text:'Marca tu ubicación en el mapa.'}); return; }
-        }
 
-        step++; 
-        updateView();
+            // Validación normal para los demás
+            if(i.placeholder.indexOf('(Opcional)') === -1 && i.value.trim() === '') {
+                i.classList.add('error-border');
+                if(i.nextElementSibling) i.nextElementSibling.style.display = 'block';
+                hayError = true;
+            }
+            if(i.classList.contains('error-border')) {
+                hayError = true;
+            }
+        });
+
+        if(hayError) { 
+            Swal.fire({icon:'warning', title:'Atención', text:'Corrige los campos en rojo antes de continuar.'}); 
+            return; 
+        }
+        if(!mapLinkUrl) { Swal.fire({icon:'warning', title:'Mapa', text:'Marca tu ubicación en el mapa.'}); return; }
     }
+    step++; 
+    updateView();
+}
 
     // --- PEGA ESTO AL FINAL DE TUS SCRIPTS ---
     function validarVivo(input, tipo, min) {
